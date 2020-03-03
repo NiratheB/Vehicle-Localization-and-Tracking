@@ -11,7 +11,7 @@
   - Segment Minimization: Create object with model and call estimate with measurement. See code in main.m
   - Volume Minimization
   - Interval Estimation
-6. **Requirements: Make sure you have CORA and mosek in your path 
+6. **Requirements**: Make sure you have CORA and mosek in your path 
 7. Plot:
   - Green: Upper bound
   - Red: Lower bound
