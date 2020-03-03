@@ -9,7 +9,7 @@ delT = 0.1;
 model = Model(delT);
 
 %Select Estimator or SegmentMinimzer or VolumeMinimizer
-estimator = SegmentMinimizer(model);
+estimator = Estimator(model);
 
 z_arr =[[]];
 infimum_arr =[[]];

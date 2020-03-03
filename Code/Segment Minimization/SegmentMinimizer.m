@@ -1,6 +1,6 @@
 classdef SegmentMinimizer < handle
-    %SEGMENTMINIMIZER Summary of this class goes here
-    %   Detailed explanation goes here
+    %SEGMENTMINIMIZER Implements the algorithm minimizing segment of
+    % intersecting zonotope
     
     properties
         model
@@ -13,7 +13,7 @@ classdef SegmentMinimizer < handle
     methods
         function obj = SegmentMinimizer(model)
             %SEGMENTMINIMIZER Construct an instance of this class
-            %   Detailed explanation goes here
+            %   Initialize variables
             obj.model = model;
             obj.x_zonotope = zonotope([zeros(model.dim_x,1),...
                 eye(model.dim_x)]);
@@ -23,8 +23,7 @@ classdef SegmentMinimizer < handle
         end
         
         function lambda = calculate_lambda(obj, H, C, del)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
+            %CALCULATE_LAMBDA calculates lambda
             numerator = H*transpose(H) * C;
             denominator = (transpose(C) * numerator) + (del*del);
             lambda = numerator / denominator;

@@ -1,6 +1,6 @@
 classdef VolumeMinimizer < handle
     %VOLUMEMINIMIZER Summary of this class goes here
-    %   Detailed explanation goes here
+    %   Implements the algorithm to minimize the volume of the zonotope
     
     properties
         model
@@ -13,7 +13,7 @@ classdef VolumeMinimizer < handle
     methods
         function obj = VolumeMinimizer(model)
             %VOLUMEMINIMIZER Construct an instance of this class
-            %   Detailed explanation goes here
+            %   Initialize variables
             obj.model = model;
             obj.x_zonotope = zonotope([zeros(obj.model.dim_x),...
                 eye(obj.model.dim_x)]);
@@ -22,8 +22,7 @@ classdef VolumeMinimizer < handle
         end
         
         function lambda = calculate_lambda(obj, z)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
+            %CALCULATE_LAMBDA Calculates lambda
             I = eye(obj.model.dim_x);
             H = obj.x_zonotope.generators;
             center = obj.x_zonotope.center;
