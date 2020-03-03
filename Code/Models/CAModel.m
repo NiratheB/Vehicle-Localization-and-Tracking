@@ -1,6 +1,7 @@
 classdef CAModel
     %MODEL Constant Acceleration Model
-    %   Detailed explanation goes here
+    %   Measurement: x,y
+    %   State: x,y,v_x,a_x
     
     properties
         A
@@ -15,7 +16,7 @@ classdef CAModel
     methods
         function obj = CAModel(delT)
             %MODEL Construct an instance of this class
-            %   Detailed explanation goes here
+            %   Initializes the model variables
             obj.delT = delT;
             obj.A = [1 0 obj.delT (0.5*obj.delT*obj.delT);
                 0 1 0 0;

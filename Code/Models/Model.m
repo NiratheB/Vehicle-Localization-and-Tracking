@@ -1,6 +1,6 @@
 classdef Model
     %MODEL Model to map from 4 to 4
-    %   
+    %   Measurement and state: x,y,v_x,a_x
     
     properties
         A

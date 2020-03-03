@@ -9,7 +9,7 @@ delT = 0.1;
 model = CAModel(delT);
 
 %Select Estimator or SegmentMinimzer or VolumeMinimizer
-estimator = SegmentMinimizer(model);
+estimator = Estimator(model);
 z_arr =[[]];
 infimum_arr =[[]];
 supremum_arr = [[]];

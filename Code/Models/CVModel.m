@@ -1,6 +1,7 @@
 classdef CVModel
     %CVMODEL Constant Velocity Model
-    %   Inititializes the properties to Constant Model variables
+    %   Measurement: x,y
+    %   State: x,y,v_x
     
     properties
         A

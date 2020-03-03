@@ -20,8 +20,8 @@ classdef Estimator < handle
     
     methods
         function obj = Estimator(model)
-            %UNTITLED Construct an instance of this class
-            %   Detailed explanation goes here
+            %ESTIMATOR Constructor
+            % Initialize variables
             obj.model = model;
             obj.E = eye(model.dim_x);
             obj.F = eye(model.dim_y);
@@ -40,8 +40,7 @@ classdef Estimator < handle
         end
         
         function [x_upper, x_lower] = estimate(obj,z)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
+            %ESTIMATE estimate from the measurement
             
             error_bounds = interval(obj.S_x) +obj.S_w+ obj.S_v;
             %x_center = S_x.center;
