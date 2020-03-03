@@ -1,8 +1,14 @@
-fileID = fopen('Data/measurement_with_noise.txt');
+% Select file and format
+fileID = fopen('Data/measurement_772.txt');
 formatSpec = '%f %f %f %f';
 sizeIn = [1, 4];
+
+%Change time step
 delT = 0.1;
+
 model = CAModel(delT);
+
+%Select Estimator or SegmentMinimzer or VolumeMinimizer
 estimator = SegmentMinimizer(model);
 z_arr =[[]];
 infimum_arr =[[]];
@@ -13,17 +19,17 @@ index = 1;
 while ~feof(fileID)
     measurement = fscanf(fileID, formatSpec, sizeIn);
     z = transpose(measurement);
-    [upper,lower] = estimator.estimate(z([1,2,4]));
+    [upper,lower] = estimator.estimate(z([1,2])); % Select the inputs
     infimum_arr(:, index) = lower;
     supremum_arr(:,index) = upper;
-    z_arr(:,index) = [z([1:3]);0;z(4)];
+    z_arr(:,index) = z;
     t_arr(index) = t;
     t= t+ delT;
     disp(index);
     index = index+1;
 end
 
-titles = ["X", "Y", "Velocity_x", "Velocity_y","Acceleration"];
+titles = ["X", "Y", "Velocity_x","Acceleration"];
 tiledlayout(model.dim_x,1);
 for i = 1:model.dim_x
     ax = nexttile;

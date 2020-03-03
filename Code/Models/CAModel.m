@@ -7,8 +7,8 @@ classdef CAModel
         C
         W
         V
-        dim_x = 5;
-        dim_y = 3;
+        dim_x = 4;
+        dim_y = 2;
         delT = 0.1;
     end
     
@@ -17,16 +17,14 @@ classdef CAModel
             %MODEL Construct an instance of this class
             %   Detailed explanation goes here
             obj.delT = delT;
-            obj.A = [1 0 obj.delT 0 (0.5*obj.delT*obj.delT);
-                0 1 0 obj.delT 0;
-                0 0 1 0 obj.delT;
-                0 0 0 1 0;
-                0 0 0 0 1];
-            obj.C = [1 0 0 0 0;
-                0 1 0 0 0;
-                0 0 0 0 1];
-            obj.W = [0.1; 0.1; 0.1; 0.1; 0.4];
-            obj.V = [0.1; 0.1; 0.1];
+            obj.A = [1 0 obj.delT (0.5*obj.delT*obj.delT);
+                0 1 0 0;
+                0 0 1 obj.delT;
+                0 0 0 1];
+            obj.C = [1 0 0 0;
+                0 1 0 0];
+            obj.W = [0.1; 0.1; 0.1; 0.4];
+            obj.V = [0.1; 0.1];
         end
     end
 end

@@ -1,9 +1,16 @@
+% Change filename and format
 fileID = fopen('Data/measurement_772.txt');
 formatSpec = '%f %f %f %f';
 sizeIn = [1, 4];
+
+%Change timestep
 delT = 0.1;
+
 model = Model(delT);
-estimator = Estimator(model);
+
+%Select Estimator or SegmentMinimzer or VolumeMinimizer
+estimator = SegmentMinimizer(model);
+
 z_arr =[[]];
 infimum_arr =[[]];
 supremum_arr = [[]];
