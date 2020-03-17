@@ -23,8 +23,8 @@ classdef CVModel
                 0 0 1];
             obj.C = [1 0 0;
                 0 1 0];
-            obj.W = [0.1; 0.1 ; 0.1];
-            obj.V = [0.1; 0.1];
+            obj.W = [5; 0.6 ; 0.1];
+            obj.V = [5; 0.6];
         end
     end
 end

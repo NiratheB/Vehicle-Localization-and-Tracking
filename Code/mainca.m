@@ -1,7 +1,7 @@
 % Select file and format
-fileID = fopen('Data/measurement_772.txt');
+fileID = fopen('Data/ngsim.txt');
 formatSpec = '%f %f %f %f';
-sizeIn = [1, 4];
+sizeIn = [1, 2];
 
 %Change time step
 delT = 0.1;
@@ -37,8 +37,11 @@ for i = 1:model.dim_x
     hold on;
     plot(ax, t_arr, supremum_arr(i,:), 'g');
     hold on;
-    plot(ax, t_arr, z_arr(i,:), 'b');
-    hold on;
+    if i<= model.dim_y
+        plot(ax, t_arr, z_arr(i,:), 'b');
+        hold on;
+    end
+    
     title( ax, titles(i));
     
 end

@@ -4,7 +4,7 @@ formatSpec = '%f %f %f %f';
 sizeIn = [1, 4];
 
 %Change time step
-delT = 0.1;
+delT = 1;
 model = CVModel(delT);
 
 %Select Estimator or SegmentMinimzer or VolumeMinimizer
@@ -18,7 +18,8 @@ index = 1;
 while ~feof(fileID)
     measurement = fscanf(fileID, formatSpec, sizeIn);
     z = transpose(measurement);
-    [upper,lower] = estimator.estimate(z(1:2)); % Select inputs
+    noise = rand(model.dim_y,1).*transpose(measurement(1:2))/100;
+    [upper,lower] = estimator.estimate(z(1:2) + noise(1:2)); % Select inputs
     infimum_arr(:, index) = lower;
     supremum_arr(:,index) = upper;
     z_arr(:,index) = z;
@@ -35,8 +36,11 @@ for i = 1:model.dim_x
     hold on;
     plot(ax, t_arr, supremum_arr(i,:), 'g');
     hold on;
-    plot(ax, t_arr, z_arr(i,:), 'b');
-    hold on;
+    if i <= size(z,1)
+        plot(ax, t_arr, z_arr(i,:), 'b');
+        hold on;   
+    end
+    
     title( ax, titles(i));
     
 end
