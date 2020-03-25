@@ -2,7 +2,7 @@ function [data] = read(file)
 %READ Summary of this function goes here
 %   Detailed explanation goes here
 line = fgetl(file);
-row = sscanf(line, '%f,');
+row = sscanf(line, '%s,');
 disp(row);
 data = [];
 rowCnt = 1;
