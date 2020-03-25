@@ -67,8 +67,11 @@ CW &= \frac{C}{\omega}
 Three main models of the vehicle dynamics are used.
 Formula x = Ax+1 + W..
 y = Cx + V...
+\section{Zonotope}
+Zonotope is chosen for the domain representation of the set of possible state of the system. Other shapes like polytopes and ellipsoids are available which have been used previously on many research projects before. The main advantage of ellipsoids is the simplicity of formulation; however much accuracy cannot be achieved using ellipsoids. On the contrast, the polytopes give better estimation accuracy, but it is efficient for a limited number of vertices, that is for longer state estimation, the computation will be inefficient. Compared to both, zonotopes give a good trade-off between accuracy and computational cost along with the ability to control Wrapping Effect, which is the growth of the shape along time due to addition of uncertainty in each time step. Hence, zonotope is chosen as a domain representation for the state of the system in this paper.
+\section{Set based State Estimation Methods}
+\subsection{Segment Minimization}
 
-\section{Set based State Estimation Method}
 %\section{State Estimation Methods}
 %\subsection{Stochastic Process}
 %\begin{itemize}
