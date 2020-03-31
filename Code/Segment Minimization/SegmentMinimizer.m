@@ -15,8 +15,9 @@ classdef SegmentMinimizer < handle
             %SEGMENTMINIMIZER Construct an instance of this class
             %   Initialize variables
             obj.model = model;
+            initial = [1000;1000;10;10;10;10];
             obj.x_zonotope = zonotope([zeros(model.dim_x,1),...
-                eye(model.dim_x)]);
+                diag(initial(1:model.dim_x))]);
             obj.index = 1;
             obj.model.C = transpose(obj.model.C);
             obj.W_zonotope =zonotope([zeros(model.dim_x,1), diag(model.W)]);

@@ -8,7 +8,7 @@ delT = 1;
 model = CVModel(delT);
 
 %Select Estimator or SegmentMinimzer or VolumeMinimizer
-estimator =Estimator(model);
+estimator =SegmentMinimizer(model);
 z_arr =[[]];
 infimum_arr =[[]];
 supremum_arr = [[]];

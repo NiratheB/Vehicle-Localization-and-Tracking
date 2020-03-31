@@ -2,17 +2,47 @@
 % for vehicle in vehicles
 %   get_score from vehicle.z, infimum and supremum
 error = [];
-directory = 'TC_BGR_Intersection_VA/*.mat';
+directory = 'Segment Minimizer/DR_CHN_Merging_ZS/*.mat';
 files = dir(directory);
 nfiles = length(files);
+vehicles = [];
+errors = [];
 for i=1:nfiles
-    vehicles = [];
     data = load(files(i).folder+"/"+files(i).name);
     vehicles = data.vehicles;
     nvehicles = size(vehicles,1);
+    
     for j=1:nvehicles
-        disp(vehicles(j).id);
+        error = calculate_error(vehicles(j));
+        errors = [errors error];
     end
+end
+
+
+titles = ["X", "Y", "Velocity_x","Velocity_y","Acceleration_x",...
+    "Acceleration_y"];
+%tiledlayout(model.dim_x,1);
+j = 1;
+disp(vehicles(j).id);
+infimum_arr = vehicles(j).infimum_arr;
+supremum_arr = vehicles(j).supremum_arr;
+z_arr = vehicles(j).z_arr;
+endtime = (vehicles(j).curr_index -2)* 0.1;
+t_arr =  0:0.1:endtime;
+for i = 1:6
+    figure(i);
+    plot(t_arr, infimum_arr(i,:), 'r');
+    hold on;
+    plot(t_arr, supremum_arr(i,:), 'g');
+    hold on;
+    if i<= 4
+        plot(t_arr, z_arr(i,:), 'b');
+        hold on;
+    end
+    xlabel('time(s)');
+    ylabel(titles(i));
+    %title( ax, titles(i));
+    
 end
 % index=1;
 % for i=sm.z_arr

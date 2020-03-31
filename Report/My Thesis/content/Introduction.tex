@@ -1,11 +1,10 @@
 \chapter{Introduction} \label{ch:intro}
+Recent progress in the autonomous driving extrapolates to launch of such vehicles in the very near future. The race to the top of automobile industry, participated by companies like BMW, Tesla, Waymo/Google, requires fast devlopment and vigorous testing of the novel vehicles. One of the many challenges of this fields is the collision avoidance system. With no human behind wheels for level 5 cars, the vehicle must keep track of roads, surrounding vehicles, safety of the passenger along with the pedestrians in different environment including rain and fog. Current collision systems based on sensors, radar and camera will be overwhelmed with high computation for this purpose. Tolerating error in such system can cause accidents; such error in vehicles have already caused real-life accidents, including one resulting in death.
 
-\begin{itemize}
-\item{Motivation}
-\item{Problem Formulation}
-\item{State of the art solutions}
-\item{Structure of the paper}
-\end{itemize}
+
+On the other hand, there is parallel development in state estimation for control theory. There are set to represent the domain of the state of the system. There are development in linear and non-linear systems. Comparing different shapes to represent state like polytopes, ellipsoinds and zonotopes, zonotopes have gained much fame due to its balance between accuracy and computation cost relative to the other representations. Furthermore, zonotopes take care of Wrapping Effect and Minkowski Sum. There are library in Matlab that implemented the functionalities in zonotope required for state estimation.
+
+In order to utilize the state estimation algorithms, the foremost necessary step is to define the tracked vehicle in a linear model. There have been various research on identifying the models balancing between computation cost and accuracy. The models used in this paper are Constant Velocity, Constant Acceleration and the Singer Acceleration Model.
 
 
 

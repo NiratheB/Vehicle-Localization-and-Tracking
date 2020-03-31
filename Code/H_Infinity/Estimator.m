@@ -33,7 +33,9 @@ classdef Estimator < handle
             obj.D_v = -obj.L * obj.F * V;
             obj.S_w = interval(zonotope([zeros(model.dim_x,1), zeros(model.dim_x)]));
             obj.S_v = interval(zonotope([zeros(model.dim_x, 1), zeros(model.dim_x)]));
-            obj.S_x = zonotope([zeros(model.dim_x, 1), 0.2*eye(model.dim_x)]);
+            initial = [1000;1000;10;10;10;10];
+            obj.S_x = zonotope([zeros(model.dim_x,1),...
+                diag(initial(1:model.dim_x))]);
             obj.x_estimated = obj.S_x.center;
             obj.index = 1;
             obj.gain_factor = obj.model.A- (obj.L*obj.model.C);

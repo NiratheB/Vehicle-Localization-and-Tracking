@@ -1,6 +1,6 @@
 % go to dir
-directory = 'Data/TC_BGR_Intersection_VA/*.csv';
-out_directory ='Out/TC_BGR_Intersection_VA/';
+directory = 'Data/DR_CHN_Merging_ZS/*.csv';
+out_directory ='Out/DR_CHN_Merging_ZS/';
 
 files = dir(directory);
 n = length(files);
