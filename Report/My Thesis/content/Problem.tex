@@ -16,11 +16,11 @@ s_x & s_y
 \end{matrix}
 ]^T
 \end{equation*}
-Three linear system are implemented to compare the different algorithms for tracked vehicles. They are:
+Three linear systems are implemented to compare the different algorithms for tracked vehicles. Although there exists highly precise vehicle models, simplest models are used here to represent the tracked vehicle partly because the tracked vehicle physical dimensions like wheelbase or side-slip, cannot directly be measured. Another reason is adding steering angle and yaw rate makes the system non-linear and hence does not suit all the algorithms presented. Hence, the models are:
 \begin{itemize}
-\item Constant Velocity Model: The vehicle is assumed to travel in constant velocity
-\item Constant Acceleration Model: The vehicle is assumed to have constant acceleration
-\item Singer Acceleration Model: The acceleration of the tracked vehicle is assumed to be first-order Markov process of the form:
+\item \textbf{Constant Velocity Model}: The vehicle is assumed to travel in constant velocity
+\item \textbf{Constant Acceleration Model}: The vehicle is assumed to have constant acceleration
+\item \textbf{Singer Acceleration Model}: The acceleration of the tracked vehicle is assumed to be first-order Markov process of the form:
 \begin{equation}
 \begin{split}
 a_{k+1} & = \rho_m a_k + \sqrt{1- \rho_m^2} \sigma_m r_k\\
@@ -97,7 +97,6 @@ s_x \\ s_y \\ v_x \\ v_y \\a_x \\a_y
 \end{matrix}\right]$\\
 \hline
 \end{tabular}
-\label{tab:models}
-\caption{Comparing state transition matrix and measurement matrix for different vehicle models}
+\caption{Comparing state transition matrix and measurement matrix for different vehicle models}\label{tab:models}
 \end{table}
 \end{center}
