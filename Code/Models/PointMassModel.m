@@ -15,7 +15,7 @@ classdef PointMassModel
     end
     
     methods
-        function obj = Model(delT)
+        function obj = PointMassModel(delT)
             %MODEL Construct an instance of this class
             %   Detailed explanation goes here
             obj.delT = delT;
