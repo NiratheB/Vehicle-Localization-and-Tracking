@@ -1,9 +1,102 @@
 \chapter{Problem Formulation} \label{ch:problem}
-Consider the following system:
+The state of the vehicle to be tracked is $x_k$ at time $k$. The measured state is $y_k$ at the time $k$. The equations to predict $x_k$ from previous step $x_{k-1}$ and the mapping from measurement is shown in equation \ref{formula:system}, where $A$,$E$,$C$ and $F$ are known matrices, $w_k$ and $v_k$ are process noise and measurement noise at time $k$ respectively. 
 \begin{equation}
+\label{formula:system}
 \begin{split}
 x_{k+1} &= Ax_k + Ew_k\\
 y_k &= Cx_k + Fv_k
-\end{split}\label{eq:model}
+\end{split}
 \end{equation}
 
+The state of the tracked vehicle can be represented using position, velocity and acceleration in x and y-axis. Different state can be estimated using different models, whereas, the measured state of the vehicle is assumed to be position in x and y-axis for all models discussed below.
+\begin{equation*}
+y =[ 
+\begin{matrix}
+s_x & s_y
+\end{matrix}
+]^T
+\end{equation*}
+Three linear systems are implemented to compare the different algorithms for tracked vehicles. Although there exists highly precise vehicle models, simplest models are used here to represent the tracked vehicle partly because the tracked vehicle physical dimensions like wheelbase or side-slip, cannot directly be measured. Another reason is adding steering angle and yaw rate makes the system non-linear and hence does not suit all the algorithms presented. Hence, the models are:
+\begin{itemize}
+\item \textbf{Constant Velocity Model}: The vehicle is assumed to travel in constant velocity
+\item \textbf{Constant Acceleration Model}: The vehicle is assumed to have constant acceleration
+\item \textbf{Singer Acceleration Model}: The acceleration of the tracked vehicle is assumed to be first-order Markov process of the form:
+\begin{equation}
+\begin{split}
+a_{k+1} & = \rho_m a_k + \sqrt{1- \rho_m^2} \sigma_m r_k\\
+\text{where}\\
+\rho_m &= e^{-\beta T}, \beta = 1/\tau_m\\
+\tau_m &= \text{target maneuver time constant}\\
+\sigma_m &= \text{target maneuver standard deviation}\\
+r_k &= \text{zero-mean unit-standard deviation Gaussian distributed random variable}\\
+T &= \text{time step}\\
+\end{split}
+\end{equation}
+\end{itemize}
+The state transition matrix, $A$, measurement matrix, $C$ for each model are tabulated in Table \ref{tab:models}, where for Singer Acceleration Model,
+\begin{equation}
+\label{eq:singermodel}
+\begin{split}
+f(\Delta T) &= \frac{1}{\beta^2}(-1+\beta\Delta T+\rho_m)\\
+g(\Delta T) &= \frac{1}{\beta} (1- \rho_m)
+\end{split}
+\end{equation}
+\begin{center}
+\begin{table}[h]
+\begin{tabular}{|c||c|c|c|} \hline
+\textbf{Model} & \textbf{x} & \textbf{A} & \textbf{C}\\
+\hline
+\hline
+Constant Velocity & $
+\left[\begin{matrix}
+s_x \\ s_y \\ v_x \\ v_y
+\end{matrix}\right]$
+ & $\left[\begin{matrix}
+1 & 0 & \Delta T & 0\\
+0 & 1 & 0 & \Delta T\\
+0 & 0 & 1 & 0\\
+0 & 0 & 0 & 1\\
+\end{matrix}\right]$
+ & $\left[\begin{matrix}
+1 & 0 & 0 & 0\\
+0 & 1 & 0 & 0
+\end{matrix}\right]$\\
+\hline
+Constant Acceleration & $
+\left[\begin{matrix}
+s_x \\ s_y \\ v_x \\ v_y \\a_x \\a_y
+\end{matrix}\right]$
+ & $\left[\begin{matrix}
+1 & 0 & \Delta T & 0 & \frac{1}{2}\Delta T^2 & 0\\
+0 & 1 & 0 & \Delta T & 0 & \frac{1}{2}\Delta T^2 \\
+0 & 0 & 1 & 0 & \Delta T & 0\\
+0 & 0 & 0 & 1 & 0 & \Delta T\\
+0 & 0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 0 & 1
+\end{matrix}\right]$
+ & $\left[\begin{matrix}
+1 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0
+\end{matrix}\right]$\\
+\hline
+Singer Acceleration & $
+\left[\begin{matrix}
+s_x \\ s_y \\ v_x \\ v_y \\a_x \\a_y
+\end{matrix}\right]$
+ & $\left[\begin{matrix}
+1 & 0 & \Delta T & 0 & f(\Delta T)^{[\ref{eq:singermodel}]} & 0\\
+0 & 1 & 0 & \Delta T & 0 & f(\Delta T)^{[\ref{eq:singermodel}]} \\
+0 & 0 & 1 & 0 & g^{[\ref{eq:singermodel}]} & 0\\
+0 & 0 & 0 & 1 & 0 & g^{[\ref{eq:singermodel}]}\\
+0 & 0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 0 & 1
+\end{matrix}\right]$
+ & $\left[\begin{matrix}
+1 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0
+\end{matrix}\right]$\\
+\hline
+\end{tabular}
+\caption{Comparing state transition matrix and measurement matrix for different vehicle models}\label{tab:models}
+\end{table}
+\end{center}

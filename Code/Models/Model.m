@@ -22,8 +22,8 @@ classdef Model
                 0 0 1 obj.delT;
                 0 0 0 1];
             obj.C = eye(obj.dim_x);
-            obj.W = [0.1;0.1;0.1;0.4];
-            obj.V = [0.1;0.1;0.1;0.1];
+            obj.W = [0.6;0.6;0.10;1];
+            obj.V = [0.6;0.6;0.10;1];
         end
     end
 end
