@@ -1,5 +1,5 @@
 classdef SingerModel
-    %MODEL Constant Acceleration Model
+    %MODEL Singer Acceleration Model
     %   Measurement: x,y
     %   State: x,y,v_x,v_y,a_x,a_y
     
