@@ -1,12 +1,17 @@
-\chapter{State Estimation} \label{ch:state_estimation}
-State Estimation algorithms can be braodly classified into two types: Stochastic and Set-based algorithms. Stochastic state estimation algorithms assume that the uncertainties in the state of the system follow  a known probability distributions. It is difficult to fulfill the assumption for such algorithms, however, Zorzi \cite{Zorzi2017} proposed a family of Kalman Filter that solves the minimax problem with an iterative probability distribution of the uncertainties. Set-based algorithms, on the other hand, utilize geometrical sets as domain representation, like elipsoid or zonotope, to bound the possible sets of state of the system. Zonotopes are better than ellipsoids due to the balance of accuracy and computational cost. Furthermore, the zonotopes can control the wrapping effect \cite{Kuhn1998}, which is the term referred to the growth of the estimated state due to the propagated uncertainties in each iteration. Such algortithms can be further classified into segment intersection and interval observer. The former methods focus on intersecting the set of estimated state with the set of predicted state from the measurements. These methods try to minimize the bounds of the estimated state by using different properties of the geometric set like volume and radius. The interval observer methods, on the other hand, design observer to minimize the error on each time step. The following section digs deeper on the aforementioned methods.
+\chapter{Zonotope-based guaranteed state estimation} \label{ch:state_estimation}
+State Estimation algorithms can be braodly classified into two types: Stochastic and Set-based algorithms. Stochastic state estimation algorithms assume that the uncertainties in the state of the system follow a known probability distributions. It is difficult to fulfill the assumption for such algorithms, however, Zorzi \cite{Zorzi2017} proposed a family of Kalman filters that solves the minimax problem with an iterative probability distribution of the uncertainties.
+
+Set-based algorithms, on the other hand, utilize geometrical sets as domain representation, like ellipsoid or zonotope, to bound the possible sets of state of the system. Zonotopes are better than ellipsoids due to the balance of accuracy and computational cost. Furthermore, zonotopes can control the wrapping effect \cite{Kuhn1998}, which is the term referred to the growth of the estimated state due to the propagated uncertainties in each iteration. In addition, sum of zonotopes is also a zonotope (Minkowski sum), which is a desirable property for the techniques.
+
+Set-based algorithms can be further classified into segment intersection and interval observer. The former methods focus on intersecting the set of estimated state with the set of predicted state from the measurements. These methods try to minimize the bounds of the estimated state by using different properties, like volume and radius, of the geometric set. The interval observer methods, on the other hand, design observer to minimize the error on each time step. The following sections dig deeper on each of the aforementioned methods.
 
 \section{Segment Intersection} 
-The predicted state of the system at a specific time and the previous state of the system are represented by zonotopes. The state estimated is the intersection of these zonotopes. Each algorithm tries to minimize the size of the intersected segment. Different properties of zonotopes, like P-radius and volume, are considered to represent the size of the segment. The following sections list and elaborates the algorithm that depends on different properties of zonotope.
+The predicted state of the system at a specific time and the previous state of the system are represented by zonotopes. The state estimated is the intersection of these zonotopes. Each algorithm tries to minimize the size of the intersected segment. Different properties of zonotopes, like F-radius, P-radius and volume, are considered to represent the size of the segment. The following sections list and elaborate the algorithm that focus and optimize different properties of zonotopes to minimize the segment.
 
 \subsection{Frobenius norm of generators}
-Frobenius norm of the generators of a zonotope is calculated using formula
+Frobenius norm of the generators of a zonotope is calculated using the formula \eqref{fnormformula} \cite{Alamo2005}.
 \begin{equation}
+\label{fnormformula}
 ||H||_{F}^2 = ||A + \lambda b^T||^{2}_F
 \end{equation}
 \begin{equation}
@@ -14,22 +19,38 @@ Frobenius norm of the generators of a zonotope is calculated using formula
 \lambda^* = \frac{-Ab }{b^Tb}  = \frac{HH^Tc}{c^T HH^Tc} + \sigma^2
 \end{equation}
 
-The $\lambda$ that generates the minimum Frobenius norm of the generators of the intersected zonotope is calculated using the formula \ref{lambdaformula} for each iteration and the minimum zonotope is calculated.
+The $\lambda$ that generates the minimum Frobenius norm of the generators of the intersected zonotope is calculated using the formula \eqref{lambdaformula} for each iteration and the minimum zonotope is calculated.
 
 \subsection{Volume}
-The volume of a zonotope is calculated using the formula \ref{volumeformula}.
+The volume of a zonotope is calculated using the formula \eqref{volumeformula} \cite{Alamo2005}.
 \begin{equation}
 \label{volumeformula}
 Vol(\hat{X}(\lambda)) = 2^n \sum^{N(n,r)}_{i=1} |1- c^T \lambda||det(A_i)| + 2^n \sum^{N(n-1,r)}_{i=1} \sigma|det[B_i \quad v_i]||v_i^T\lambda|
 \end{equation}
 
 \subsection{P-radius}
-\begin{itemize}
-\item TODO: Implement
-\item TODO: Write
-\end{itemize}
+
 
 \section{Interval Observer}
-\begin{itemize}
-\item TODO: Write
-\end{itemize}
+Interval Observers need to design observers to minimize the error in the estimation. For the system in \eqref{formula:system}, \eqref{formula:observer} defines the observer, where $L$ is the observer gain to be designed. Although, accuracy is highly expected from these methods, the design of such observers are not very easy. The following section discusses about a method, which uses H-$\infty$ observer design.
+\begin{equation}
+\label{formula:observer}
+x_{k+1} = Ax_k + L(y_k -Cx_k)
+\end{equation}
+
+\subsection{H-$\infty$ Observer}
+The interval observer, proposed in \cite{Tang2019}, designs the observer gain to minimize the estimation error in each step by using the observer gain as $L= P^{-1}Y$ with $P$, a positive deifinite matrix with dimension $n_x x n_x$, and $Y$, a matrix with dimension $n_x x n_y$, both solution to the optimization problem in \eqref{eq:optimizationprob}.
+\begin{equation}
+\label{eq:optimizationprob}
+min \gamma _2 \\
+s.t. \ref{LMI}
+\end{equation} 
+\begin{equation}
+\label{LMI}
+\left[\begin{matrix}
+I_{n_x} -P & * & * & *\\
+0 & -\gamma ^2 I_{n_w} & * &* \\
+0 & 0 & -\gamma ^2 I_{n_v} & *\\
+PA-YC & PE & -YF & -P
+\end{matrix}\right]  \prec 0
+\end{equation} 

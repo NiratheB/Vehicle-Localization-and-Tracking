@@ -1,5 +1,5 @@
-\chapter{Problem Formulation} \label{ch:problem}
-The state of the vehicle to be tracked is $x_k$ at time $k$. The measured state is $y_k$ at the time $k$. The equations to predict $x_k$ from previous step $x_{k-1}$ and the mapping from measurement is shown in equation \ref{formula:system}, where $A$,$E$,$C$ and $F$ are known matrices, $w_k$ and $v_k$ are process noise and measurement noise at time $k$ respectively. 
+\chapter{Vehicle Localization : The Guaranteed Estimation Problem} \label{ch:problem}
+Let us denote the state of the vehicle to be tracked at time $k$ as $x_k$ and the measured state as $y_k$. The equations to predict $x_k$ from a previous step $x_{k-1}$ and the mapping from measurement, $y_k$ to state, $x_k$ is shown in equation \eqref{formula:system}, where $A$,$E$,$C$ and $F$ are known matrices, $w_k$ and $v_k$ are process noise and measurement noise at time $k$, respectively. 
 \begin{equation}
 \label{formula:system}
 \begin{split}
@@ -8,7 +8,7 @@ y_k &= Cx_k + Fv_k
 \end{split}
 \end{equation}
 
-The state of the tracked vehicle can be represented using position, velocity and acceleration in x and y-axis. Different state can be estimated using different models, whereas, the measured state of the vehicle is assumed to be position in x and y-axis for all models discussed below.
+The state of the tracked vehicle can be represented using position, velocity and acceleration in x and y-direction. Different states can be estimated using different models, whereas the measured state of the vehicle is assumed to be position in x and y-direction for all models discussed below.
 \begin{equation*}
 y =[ 
 \begin{matrix}
@@ -16,11 +16,11 @@ s_x & s_y
 \end{matrix}
 ]^T
 \end{equation*}
-Three linear systems are implemented to compare the different algorithms for tracked vehicles. Although there exists highly precise vehicle models, simplest models are used here to represent the tracked vehicle partly because the tracked vehicle physical dimensions like wheelbase or side-slip, cannot directly be measured. Another reason is adding steering angle and yaw rate makes the system non-linear and hence does not suit all the algorithms presented. Hence, the models are:
+Three linear systems are implemented to compare the different algorithms for tracked vehicles. Although there exists highly precise vehicle models for ego vehicles, the simplest models are used here to represent the tracked vehicle since no precise model of tracked vehicles are available.In particular, physical dimensions like wheelbase or side-slip, cannot be measured directly. Another reason is that adding steering angle and yaw rate makes the system non-linear and hence does not suit all the algorithms presented. Hence, we chose to investigate the following models:
 \begin{itemize}
-\item \textbf{Constant Velocity Model}: The vehicle is assumed to travel in constant velocity
-\item \textbf{Constant Acceleration Model}: The vehicle is assumed to have constant acceleration
-\item \textbf{Singer Acceleration Model}: The acceleration of the tracked vehicle is assumed to be first-order Markov process of the form:
+\item \textbf{Constant Velocity Model} : The vehicle is assumed to travel in constant velocity. The vehicle is formulated using \cite{Schubert2008}.
+\item \textbf{Constant Acceleration Model}: The vehicle is assumed to have constant acceleration. The vehicle is formulated using \cite{Schubert2008}.
+\item \textbf{Singer Acceleration Model}: The acceleration of the tracked vehicle is assumed to be a first-order Markov process of the form  \cite{Singer1970}:
 \begin{equation}
 \begin{split}
 a_{k+1} & = \rho_m a_k + \sqrt{1- \rho_m^2} \sigma_m r_k\\
@@ -33,22 +33,18 @@ T &= \text{time step}\\
 \end{split}
 \end{equation}
 \end{itemize}
-The state transition matrix, $A$, measurement matrix, $C$ for each model are tabulated in Table \ref{tab:models}, where for Singer Acceleration Model,
-\begin{equation}
-\label{eq:singermodel}
-\begin{split}
-f(\Delta T) &= \frac{1}{\beta^2}(-1+\beta\Delta T+\rho_m)\\
-g(\Delta T) &= \frac{1}{\beta} (1- \rho_m)
-\end{split}
-\end{equation}
-\begin{center}
-\begin{table}[h]
-\begin{tabular}{|c||c|c|c|} \hline
-\textbf{Model} & \textbf{x} & \textbf{A} & \textbf{C}\\
-\hline
-\hline
-Constant Velocity & $
-\left[\begin{matrix}
+The state transition matrix, $A$, measurement matrix, $C$ for each model are tabulated in Table \ref{tab:models}.
+
+\begin{table}[htbp]
+\caption{Comparison of state transition and measurement matrix for different vehicle models.\\}
+	\centering
+	\renewcommand{\arraystretch}{1.1}
+	\small	
+	\begin{tabular}{l l  l l @{}}
+		\toprule 
+		\textbf{Model} & \textbf{x} & \textbf{A} & \textbf{C} \\ \midrule
+		%-------------------------------------		
+		Constant Velocity & $\left[\begin{matrix}
 s_x \\ s_y \\ v_x \\ v_y
 \end{matrix}\right]$
  & $\left[\begin{matrix}
@@ -61,7 +57,6 @@ s_x \\ s_y \\ v_x \\ v_y
 1 & 0 & 0 & 0\\
 0 & 1 & 0 & 0
 \end{matrix}\right]$\\
-\hline
 Constant Acceleration & $
 \left[\begin{matrix}
 s_x \\ s_y \\ v_x \\ v_y \\a_x \\a_y
@@ -78,8 +73,7 @@ s_x \\ s_y \\ v_x \\ v_y \\a_x \\a_y
 1 & 0 & 0 & 0 & 0 & 0\\
 0 & 1 & 0 & 0 & 0 & 0
 \end{matrix}\right]$\\
-\hline
-Singer Acceleration & $
+Singer Acceleration& $
 \left[\begin{matrix}
 s_x \\ s_y \\ v_x \\ v_y \\a_x \\a_y
 \end{matrix}\right]$
@@ -95,8 +89,16 @@ s_x \\ s_y \\ v_x \\ v_y \\a_x \\a_y
 1 & 0 & 0 & 0 & 0 & 0\\
 0 & 1 & 0 & 0 & 0 & 0
 \end{matrix}\right]$\\
-\hline
-\end{tabular}
-\caption{Comparing state transition matrix and measurement matrix for different vehicle models}\label{tab:models}
+		%--------------------------------------		
+		\bottomrule
+	\end{tabular}
+	\label{tab:models}
 \end{table}
-\end{center}
+
+\begin{equation}
+\label{eq:singermodel}
+\begin{split}
+f(\Delta T) &= \frac{1}{\beta^2}(-1+\beta\Delta T+\rho_m)\\
+g(\Delta T) &= \frac{1}{\beta} (1- \rho_m)
+\end{split}
+\end{equation}
