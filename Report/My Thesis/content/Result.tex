@@ -10,34 +10,33 @@ v_k &= [0.1;0.1]
 \end{equation}
 
 \section{Computation Time}
-Figure \ref{fig:timegraph} shows that the estimation for Volume Minimization rises exponentially. Hence, the Volume Minimization method is not considered on the following parameters because, as seen from the graph, Volume Minimization requires vast time to compute the estimation, which makes it futile in the state estimation for collision avoidance system.
-
 \begin{figure}
 \label{fig:timegraph}
 \centering
-\includegraphics[width=.8\linewidth]{figures/timegraphh}
+\includegraphics[width=\linewidth]{figures/timegraphh}
 \caption{Computation time for each method}
 \end{figure}
 
-Average computation time for the segment intersection using F-Radius, P-Radius and interval observer using H-$\infty$ method for 10510 vehicles with cumulative 1623966 measurements of position in x and y-direction every 0.1s time step is tabulated in table \ref{tab:comptime}
-
 \begin{table}[htbp]
-\caption{Comparison of computation time(in ms) for 10510 vehicles in an intersection in USA\\}
+\caption{Comparison of computation time (ms) for 10510 vehicles in an intersection in USA\\}
 	\centering
 	\renewcommand{\arraystretch}{1.1}
 	\small	
-	\begin{tabular}{l l l l}
+	\begin{tabular}{l l}
 		\toprule 
-		\textbf{Method} & \textbf{Constant Velocity} & \textbf{Constant Acceleration} & \textbf{Singer Acceleration} \\ \midrule
+		\textbf{Method} & \textbf{Average Computation Time (ms)}\\ \midrule
 		%-------------------------------------		
-		F-Radius & 0.396 & 0.375 & 0.399\\
-		P-Radius & 0.312 & 0.319 & 0.317\\
-		H-$\infty$ approximation & 0.145 & 0.147 & 0.142\\
+		F-Radius & 0.375\\
+		P-Radius &0.319\\
+		H-$\infty$ approximation & 0.147\\
 		%--------------------------------------		
 		\bottomrule
 	\end{tabular}
 	\label{tab:comptime}
 \end{table}
+Figure \ref{fig:timegraph} shows that computation time for Volume Minimization rises exponentially making it futile in the state estimation for collision avoidance system. On the contrary, Table \ref{tab:comptime} shows that the computation time for the other methods are negligible compared to the frame rate, i.e 100ms. Furthermore, the interval observer using H-$\infty$ has almost half the time required for the segment intersection methods, although the computation time does not consider the time for pre-computation for the techniques.
+
+
 
 \section{Time to Converge}
 \begin{table}[htbp]
@@ -47,20 +46,25 @@ Average computation time for the segment intersection using F-Radius, P-Radius a
 	\small	
 	\begin{tabular}{l l l l}
 		\toprule 
-		\textbf{Method} & \textbf{Constant Velocity} & \textbf{Constant Acceleration} & \textbf{Singer Acceleration} \\ \midrule
+		\textbf{Method} & \textbf{Constant Velocity} & \textbf{Constant Acceleration} & \textbf{Point Mass Model} \\ \midrule
 		%-------------------------------------		
-		F-Radius & 20 & 40 & 20\\
-		P-Radius & 22 & 35 & 12\\
-		H-$\infty$ approximation & 14 & 40 & 20\\
+		F-Radius & 20 & 40 & 12\\
+		P-Radius & 22 & 35 & 25\\
+		H-$\infty$ approximation & 14 & 40 & 25\\
 		%--------------------------------------		
 		\bottomrule
 	\end{tabular}
 	\label{tab:convtime}
 \end{table}
+Table\ref{tab:convtime} compares the time for each of the technique to converge unmeasured state(velocity for constant velocity, acceleration for the rest). Segment Intersection using F-Radius works the best using Point Mass Model, as it converges the fastest.
+
+
+\ref{eresult:setest} shows the estimated bounds for all the models on a vehicle with varying acceleration. Comparing the estimation of velocity, same bounds are obtained from constant acceleration and point mass model, however, the bounds of acceleration from the latter is better than the former. Hence, point mass model is used to compare the algorithms for estimating acceleration on the following sections.
+
 
 \section{Bounds}
 \begin{table}[htbp]
-\caption{Comparison of average time(in ms) to converge for unmeasured state\\}
+\caption{Comparison of bounds of estimation\\}
 	\centering
 	\renewcommand{\arraystretch}{1.1}
 	\small	
@@ -75,58 +79,86 @@ Average computation time for the segment intersection using F-Radius, P-Radius a
 		
 		%--------------------------------------		
 		
-		& \multicolumn{6}{c}{\textbf{Constant Acceleration}}\\
-		 & \textbf{$x$} & \textbf{$y$} & \textbf{$v_x$} & \textbf{$v_y$} & \textbf{$a_x$} & \textbf{$a_y$}\\ \midrule
-		%-------------------------------------		
-		F-Radius & .5713 &	.5075 &	8.461	& 8.461 &	15.86 &	15.97\\
-		P-Radius & .4598 &	.4523 &	16.39 &	16.39 &	16.61 &	17.42\\
-		H-$\infty$ approximation & 1.5 & 1.5 & 9.414 &	9.414 &	16.42 &	16.35\\
+%		& \multicolumn{6}{c}{\textbf{Constant Acceleration}}\\
+%		 & \textbf{$x$} & \textbf{$y$} & \textbf{$v_x$} & \textbf{$v_y$} & \textbf{$a_x$} & \textbf{$a_y$}\\ \midrule
+%		%-------------------------------------		
+%		F-Radius & .5713 &	.5075 &	8.461	& 8.461 &	15.86 &	15.97\\
+%		P-Radius & .4598 &	.4523 &	16.39 &	16.39 &	16.61 &	17.42\\
+%		H-$\infty$ approximation & 1.5 & 1.5 & 9.414 &	9.414 &	16.42 &	16.35\\
 		
 		%--------------------------------------		
 		
-		& \multicolumn{6}{c}{\textbf{Singer Acceleration}}\\
+%		& \multicolumn{6}{c}{\textbf{Singer Acceleration}}\\
+%		 & \textbf{$x$} & \textbf{$y$} & \textbf{$v_x$} & \textbf{$v_y$} & \textbf{$a_x$} & \textbf{$a_y$}\\ \midrule
+%		%-------------------------------------		
+%		F-Radius &.4859	& .4859 &	7.38 & 7.383 &	11.53 &	11.53\\
+%		P-Radius & .7035 &	.7035 &	23.23 &	23.23 &	10.23 &	10.23\\
+%		H-$\infty$ approximation & 1.276 &	1.19 &	9.691 &	9.691 &	10.01 &	10.01\\
+%		
+%		%--------------------------------------		
+		
+		& \multicolumn{6}{c}{\textbf{Point Mass Model}}\\
 		 & \textbf{$x$} & \textbf{$y$} & \textbf{$v_x$} & \textbf{$v_y$} & \textbf{$a_x$} & \textbf{$a_y$}\\ \midrule
 		%-------------------------------------		
-		F-Radius &.4859	& .4859 &	7.38 & 7.383 &	11.53 &	11.53\\
-		P-Radius & .7035 &	.7035 &	23.23 &	23.23 &	10.23 &	10.23\\
-		H-$\infty$ approximation & 1.276 &	1.19 &	9.691 &	9.691 &	10.01 &	10.01\\
+		F-Radius & .5713 &	.5075 &	8.461	& 8.461 &	15.79 &	15.78\\
+		P-Radius & .4598 &	.4523 &	16.39 &	16.39 &	16.43 &	16.18\\
+		H-$\infty$ approximation & 1.5 & 1.5 & 9.414 &	9.414 &	16.11 &	16.24\\
 		\bottomrule
 	\end{tabular}
 	\label{tab:bound}
 \end{table}
+Bounds using constant velocity model is tighter compared to point mass model as seen from Table \ref{tab:bound}. The segment intersection using F-Radius has the tighter bounds compared to the other techniques. Interesting to note, the H$-\infty$ has much higher bounds in the initial time steps.
 
 
-Time comparison for each method for n vehicles is shown in figure [cite]
+\section{Accuracy}
+The boxplot using measurements in velocity using Point Mass Model for all the techniques are shown in Figure \ref{fig:boxplot}. The error bound in lowest in H-$\infty$, however, segment minimization using F-Radius has a lower mean error.
 
-As seen from Fig. \ref{fig:segmentminimization}, the upper and lower bounds of the state estimation by Segment Intersection(using Frobenius norm) of the system bounds the true state. Comparing the error in different states of the system, as shown in Fig. \ref{fig:comparison}, suggests that all the algorithms require around 1s to converge to near the true state. Interesting to note, the Interval Estimation has a higher error peak compared to Segment Minimization using the same dataset.\\
-
-The Fig. \ref{fig:histogram} shows the Histogram of RMSE (Root Mean Square Error) of estimation from Segment Minimization. The errors are calculated after 10 seconds in order to avoid the initial peak. The histograms suggest that, the method gives little error for estimating the measured state, whereas, for unmeasured state like velocity, the error is at most twice the true state.
-
-
-\begin{figure}[h!]
-\begin{subfigure}{.5\textwidth}
+\begin{figure}[h]\label{fig:boxplot}
+\begin{subfigure}{\linewidth}
 \centering
-\includegraphics[width=.8\linewidth]{figures/s_caXerror}
-\caption{RMSE $x$}
+\includegraphics[width=.6\linewidth]{figures/Error/error_sm}
 \end{subfigure}
-\begin{subfigure}{.5\textwidth}
+\begin{subfigure}{\linewidth}
 \centering
-\includegraphics[width=.8\linewidth]{figures/s_caYerror}
-\caption{RMSE $y$}
+\includegraphics[width=.6\linewidth]{figures/Error/error_prad}
 \end{subfigure}
-\begin{subfigure}{.5\textwidth}
+\begin{subfigure}{\linewidth}
 \centering
-\includegraphics[width=.8\linewidth]{figures/s_cavXerror}
-\caption{RMSE in $velocity_x$}
+\includegraphics[width=.6\linewidth]{figures/Error/error_hinf}
 \end{subfigure}
-\begin{subfigure}{.5\textwidth}
-\centering
-\includegraphics[width=.8\linewidth]{figures/s_cavYerror}
-\caption{RMSE in $velocity_y$}
-\end{subfigure}
-\caption{Histogram of errors from Segment Minimizer on 651 vehicles }
-\label{fig:histogram}
+\caption{RMSE(Root Mean Squared Error)}
 \end{figure}
+%Time comparison for each method for n vehicles is shown in figure [cite]
+%
+%As seen from Fig. \ref{fig:segmentminimization}, the upper and lower bounds of the state estimation by Segment Intersection(using Frobenius norm) of the system bounds the true state. Comparing the error in different states of the system, as shown in Fig. \ref{fig:comparison}, suggests that all the algorithms require around 1s to converge to near the true state. Interesting to note, the Interval Estimation has a higher error peak compared to Segment Minimization using the same dataset.\\
+%
+%The Fig. \ref{fig:histogram} shows the Histogram of RMSE (Root Mean Square Error) of estimation from Segment Minimization. The errors are calculated after 10 seconds in order to avoid the initial peak. The histograms suggest that, the method gives little error for estimating the measured state, whereas, for unmeasured state like velocity, the error is at most twice the true state.
+
+
+%\begin{figure}[h!]
+%\begin{subfigure}{.5\textwidth}
+%\centering
+%\includegraphics[width=.8\linewidth]{figures/s_caXerror}
+%\caption{RMSE $x$}
+%\end{subfigure}
+%\begin{subfigure}{.5\textwidth}
+%\centering
+%\includegraphics[width=.8\linewidth]{figures/s_caYerror}
+%\caption{RMSE $y$}
+%\end{subfigure}
+%\begin{subfigure}{.5\textwidth}
+%\centering
+%\includegraphics[width=.8\linewidth]{figures/s_cavXerror}
+%\caption{RMSE in $velocity_x$}
+%\end{subfigure}
+%\begin{subfigure}{.5\textwidth}
+%\centering
+%\includegraphics[width=.8\linewidth]{figures/s_cavYerror}
+%\caption{RMSE in $velocity_y$}
+%\end{subfigure}
+%\caption{Histogram of errors from Segment Minimizer on 651 vehicles }
+%\label{fig:histogram}
+%\end{figure}
 %\begin{itemize}
 %\item{Efficiency}
 %\item{Accuracy}

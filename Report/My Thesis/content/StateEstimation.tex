@@ -29,7 +29,11 @@ Vol(\hat{X}(\lambda)) = 2^n \sum^{N(n,r)}_{i=1} |1- c^T \lambda||det(A_i)| + 2^n
 \end{equation}
 
 \subsection{P-radius}
-
+The P-radius of a zonotope can be calculated by the formula \eqref{pradformula} where $P$ is a positive definite matrix.
+\begin{equation}
+\label{pradformula}
+\underset{z \in Z}{max} (||z - p||^2_{P}) = \underset{z \in Z}{max}((z-p)^T P (z-p))
+\end{equation}
 
 \section{Interval Observer}
 Interval Observers need to design observers to minimize the error in the estimation. For the system in \eqref{formula:system}, \eqref{formula:observer} defines the observer, where $L$ is the observer gain to be designed. Although, accuracy is highly expected from these methods, the design of such observers are not very easy. The following section discusses about a method, which uses H-$\infty$ observer design.
@@ -42,8 +46,8 @@ x_{k+1} = Ax_k + L(y_k -Cx_k)
 The interval observer, proposed in \cite{Tang2019}, designs the observer gain to minimize the estimation error in each step by using the observer gain as $L= P^{-1}Y$ with $P$, a positive deifinite matrix with dimension $n_x x n_x$, and $Y$, a matrix with dimension $n_x x n_y$, both solution to the optimization problem in \eqref{eq:optimizationprob}.
 \begin{equation}
 \label{eq:optimizationprob}
-min \gamma _2 \\
-s.t. \ref{LMI}
+\underset{\gamma _2}{min} \;
+s.t. \; \eqref{LMI}
 \end{equation} 
 \begin{equation}
 \label{LMI}
