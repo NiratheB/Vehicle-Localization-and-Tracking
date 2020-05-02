@@ -1,5 +1,5 @@
 \chapter{Zonotope-based guaranteed state estimation} \label{ch:state_estimation}
-State Estimation algorithms can be braodly classified into two types: Stochastic and Set-based algorithms. Stochastic state estimation algorithms assume that the uncertainties in the state of the system follow a known probability distributions. It is difficult to fulfill the assumption for such algorithms, however, Zorzi \cite{Zorzi2017} proposed a family of Kalman filters that solves the minimax problem with an iterative probability distribution of the uncertainties.
+State estimation algorithms can be broadly classified into two types: Stochastic and Set-based algorithms. Stochastic state estimation algorithms assume that the uncertainties in the state of the system follow a known probability distributions. It is difficult to fulfill the assumption for such algorithms, however, Zorzi \cite{Zorzi2017} proposed a family of Kalman filters that solves the minimax problem with an iterative probability distribution of the uncertainties.
 
 Set-based algorithms, on the other hand, utilize geometrical sets as domain representation, like ellipsoid or zonotope, to bound the possible sets of state of the system. Zonotopes are better than ellipsoids due to the balance of accuracy and computational cost. Furthermore, zonotopes can control the wrapping effect \cite{Kuhn1998}, which is the term referred to the growth of the estimated state due to the propagated uncertainties in each iteration. In addition, sum of zonotopes is also a zonotope (Minkowski sum), which is a desirable property for the techniques.
 
@@ -7,22 +7,22 @@ Set-based algorithms can be further classified into segment intersection and int
 
 \section{Segment Intersection} 
 \begin{equation}
-\label{formula:system}
+\label{formula:system_segint}
 \begin{split}
 x_{k+1} &= Ax_k + Ew_k\\
 y_k &= Cx_k + Fv_k
 \end{split}
 \end{equation}
-For the system in \eqref{formula:system}, let the set of predicted state of the system at time $k$ be denoted by a zonotope, $\overline{\mathcal{X}_k} = p\bigoplus H \textbf{B}^r$. The set to represent the $i^{th}$ state in measurement($y_{k/i}$) at time $k$ is a strip, denoted by $\mathscr{S}_i = \{x \in \mathbb{R} : |C_i x - y_{k/i}| \leq v_{k/i}\}$. The estimation at time $k$, denoted by $\mathcal{\hat{X}}_k$, is the intersection of the strip, $\mathscr{S}$, and the zonotope $\mathcal{X}_k$, which can be parametrized by a vector $\lambda \in \mathbb{R}$ such that \eqref{formula:lambda}. 
+For the system in \eqref{formula:system_segint}, let the set of predicted state of the system at time $k$ be denoted by a zonotope, $\overline{\mathcal{X}_k} = p\bigoplus H \textbf{B}^r$. The set to represent the $i^{th}$ state in measurement($y_{k/i}$) at time $k$ is a strip, denoted by $\mathscr{S}_i = \{x \in \mathbb{R} : |C_i x - y_{k/i}| \leq v_{k/i}\}$ \footnote{$C_i$ is the $i^{th}$ row of $C$}. The estimation at time $k$, denoted by $\mathcal{\hat{X}}_k$, is the intersection of the strip, $\mathscr{S}$, and the zonotope $\overline{\mathcal{X}_k}$, which can be parametrized by a vector $\lambda_i \in \mathbb{R}^n$ such that \eqref{formula:lambda}. 
 \begin{equation}
 \label{formula:lambda}
 \begin{split}
-\mathcal{\hat{X}}_{k/i} &= \hat{p}(\lambda) + \hat{H}(\lambda)\textbf{B}^{r+1}  \\
-where \quad \hat{p}(\lambda) &= p+ \lambda(y_{k/i} - C_ip)\\
-and \quad \hat{H}(\lambda) &= [(I- \lambda C_i) H \quad v_{k/i}\lambda ]
+\mathcal{\hat{X}}_{k/i} &= \hat{p}(\lambda_i) + \hat{H}(\lambda_i)\textbf{B}^{r+1}  \\
+where \quad \hat{p}(\lambda_i) &= p+ \lambda_i(y_{k/i} - C_ip)\\
+and \quad \hat{H}(\lambda_i) &= [(I- \lambda_i C_i) H \quad v_{k/i}\lambda_i ]
 \end{split}
 \end{equation}
-The motive of segment intersection methods is to find the value of $\lambda$ such that the intersected segment is compact. For every iteration, the order of the zonotope increases, and hence to reduce accumulating compuation burden, the estimated zonotope is reduce to maximum order 20 for this paper using the reduction function in CORA. Following sections briefly discuss three different approaches to solve the problem by focusing on three properties of zonotope.
+The motive of segment intersection methods is to find the value of $\lambda$ such that the intersected segment is compact. For every iteration, the order of the zonotope increases, and hence to reduce accumulating compuation burden, the estimated zonotope is reduced to maximum order of 20 for this paper using the reduction function in CORA. Following sections briefly discuss three different approaches to solve the problem by focusing on three distinguishing properties of zonotope.
 
 \subsection{Frobenius norm of generators}
 This algorithm solves the problem by minimizing the F-norm of the generators of the intersected zonotope. Let us rewrite $\hat{H}(\lambda)$ as $A+ \lambda b^T$ such that $A= [H \quad 0]$ and $b^T = [-C_i H \quad v_{k/i}]$.
@@ -41,10 +41,10 @@ Thus, the Frobenius norm of the generators of a zonotope is calculated using the
 \lambda^* = \frac{-Ab }{b^Tb}  = \frac{HH^TC_i^T}{C_i HH^TC_i^T} + v_{k/i}^2
 \end{equation}
 
-The $\lambda^*$ that generates the minimum Frobenius norm of the generators of the intersected zonotope is calculated using the formula \eqref{lambdaformula} for each measurement in each iteration and the minimum zonotope to represent the estimation is calculated.
+The $\lambda^*$ that corresponds to the minimum Frobenius norm of the generators of the intersected zonotope is calculated using the formula \eqref{lambdaformula} for each measurement in each iteration and the minimum zonotope to represent the estimation is calculated.
 
 \subsection{Volume}
-Volume is a precise metric proportional to the size of the zonotope. The volume of the $\mathcal{\hat{X}}_k$ for $i^{th}$ measurement state is \cite{Alamo2005}:
+Volume is a precise metric directly proportional to the size of the zonotope. The volume of the $\mathcal{\hat{X}}_k$ for $i^{th}$ measurement state is \cite{Alamo2005}:
 \begin{equation}
 \label{volumeformula}
 \begin{split}
@@ -54,16 +54,16 @@ Vol(\hat{X}(\lambda))=& 2^n \sum^{N(n,r)}_{j=1} |[(I - \lambda C_i)det(A_j)|\\
 \end{equation}
 where $N(n,r)$ denotes the number of combinations of $r$ elements from a set of $n$ elements, $A_j$ and $B_j$ denote each of the different matrices generated by choosing $n$ and $n-1$ columns from $H$ respectively. 
 
-For this paper, the $volume$ function provided by CORA is used along with \texttt{fmincon} solver in Matlab to find the value of $\lambda$ corresponding to the minimum volume of the intersected zonotope. Although volume minimizes the intersected zonotope significantly, the calculation of volume is computationally heavy. Therefore, it works best for use-cases which are not time-sensitive, e.g. fault diagnosis and fault tolerant control systems \ref{Puig2010} . 
+For this paper, the $volume$ function provided by CORA is used along with \texttt{fmincon} solver in Matlab\textsuperscript{\tiny\textregistered} to find the value of $\lambda$ corresponding to the minimum volume of the intersected zonotope. Although volume minimizes the intersected zonotope significantly, the calculation of volume is extremely computationally heavy. Therefore, it works best for use-cases which are not time-sensitive, e.g. fault diagnosis and fault tolerant control systems \cite{Puig2010} . 
 
 
 \subsection{P-radius}
-The P-radius of a zonotope can be calculated by the formula \eqref{pradformula} where $P$ is a positive definite matrix \cite{Alamo2005}.
+The P-radius of a zonotope can be calculated with the formula \eqref{pradformula} where $P$ is a positive definite matrix \cite{Alamo2005}.
 \begin{equation}
 \label{pradformula}
 \underset{z \in Z}{max} (||z - p||^2_{P}) = \underset{z \in Z}{max}((z-p)^T P (z-p))
 \end{equation}
-To make sure the P-radius does not increase in every iteration, $\lambda$ can be computed off-line by solving the LMI(Linear Matrix Inequality) in Equation \eqref{eq:pradlmi} using Mosek solver in Matlab.
+To make sure the P-radius does not increase in every iteration, $\lambda$ can be computed off-line by solving the LMI(Linear Matrix Inequality) in Equation \eqref{eq:pradlmi} using Mosek solver in Matlab\textsuperscript{\tiny\textregistered}.
 \begin{equation}
 \label{eq:pradlmi}
 \left[
@@ -79,7 +79,7 @@ where\quad Y = P\lambda_i
 Due to off-line computation, this method is substantially faster and has been used in lower accuracy-prone systems like secure monitoring of cyber-physical systems against attacks \cite{GE20201592}.
 
 \section{Interval Observer}
-Interval Observers need to design observers to minimize the error in the estimation. For the system in \eqref{formula:system}, \eqref{formula:observer} defines the observer, where $L$ is the observer gain to be designed. Although, accuracy is highly expected from these methods, the design of such observers are not very easy. The following section discusses about a method, which uses H-$\infty$ observer design.
+Interval observers need to design observers to minimize the error in the estimation. For the system in \eqref{formula:system_segint}, \eqref{formula:observer} defines the observer, where $L$ is the observer gain to be designed. The design of such observers is not very easy. The following section discusses about a method, which uses H-$\infty$ observer design.
 \begin{equation}
 \label{formula:observer}
 x_{k+1} = Ax_k + L(y_k -Cx_k)
@@ -102,4 +102,4 @@ PA-YC & PE & -YF & -P
 \end{matrix}\right]  \prec 0
 \end{equation} 
 
-With $L$ derived using a mosek solver in Matlab, the estimated state of the system is found by Equation \eqref{formula:observer}.
+With $L$ derived using a mosek solver in Matlab\textsuperscript{\tiny\textregistered}, the estimated state of the system is found by Equation \eqref{formula:observer}.

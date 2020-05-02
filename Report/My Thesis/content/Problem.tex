@@ -24,9 +24,9 @@ s_x & s_y
 %.1 & .1
 %\end{matrix}]^T$.\\
 
-Given a model (\eqref{formula:system}), the problem of state estimation is to compute an outer bound of the state($x_k$) consisting the possible values of the true possible state of the system. The dimension of the state($x_k$), the state transition matrix($A$) and measurement matrix ($C$) differ across different models as discussed in the next section.
+Given a model (\eqref{formula:system}), the problem of state estimation is to compute an outer bound of the state($x_k$) consisting of the possible values of the true possible state of the system. The dimensions of the state($x_k$), the state transition matrix($A$) and measurement matrix ($C$) differ across different models as discussed in the next section.
 \section{Vehicle Model}
-Three linear systems are implemented to compare the different algorithms for tracked vehicles. Although there exists highly precise vehicle models for ego vehicles, the simplest models are used here to represent the tracked vehicle since no precise model of tracked vehicles are available. In particular, physical dimensions like wheelbase or side-slip, cannot be measured directly. Another reason is that adding steering angle and yaw rate makes the system non-linear and hence does not suit all the algorithms presented. Hence, we chose to investigate the following models:
+Three linear systems are implemented to compare the different algorithms for tracked vehicles. Although there exists highly precise vehicle models for ego vehicles, the simplest models are used here to represent the tracked vehicle since no precise model of tracked vehicles are available. In particular, physical dimensions like wheelbase or side-slip, cannot be measured directly. Another reason is that adding steering angle and yaw rate makes the system non-linear and hence does not suit all the algorithms presented. Hence, the following models are investigated:
 \begin{itemize}
 \item \textbf{Constant Velocity Model}
 \item \textbf{Constant Acceleration Model}
@@ -34,7 +34,7 @@ Three linear systems are implemented to compare the different algorithms for tra
 \end{itemize}
 \subsection{Constant Velocity Model}
 The vehicle is assumed to travel in constant velocity \cite{Schubert2008}. The state of the system ($x_k$), state transition matrix ($A$), and the measurement matrix($C$) is shown in \eqref{formula:cvmodel}.
-\begin{equation*}
+\begin{equation}
 \label{formula:cvmodel}
 \begin{split}
 x &=
@@ -52,7 +52,7 @@ C&= \left[\begin{matrix}
 0 & 1 & 0 & 0
 \end{matrix}\right]
 \end{split}
-\end{equation*}
+\end{equation}
 %The state transition matrix ($A$ in \eqref{formula:system}) is derived to be:\\
 %$\left[\begin{matrix}
 %1 & 0 & \Delta T & 0\\
@@ -151,9 +151,9 @@ C&= \left[\begin{matrix}
 %\end{split}
 %\end{equation}
 \subsection{Constant Acceleration Model}
-Although the Constant velocity Model is easy to implement, however it is dangerous to assume constant velocity. Acceleration model takes care of changing velocity and assumes constant acceleration \cite{Schubert2008}. The state of the system ($x_k$), state transition matrix ($\mathcal{A}$), and the measurement matrix($C$) is shown in \eqref{formula:camodel}.
+Although the Constant velocity Model is easy to implement, it is ineffective to assume constant velocity. Acceleration model takes care of changing velocity and assumes constant acceleration \cite{Schubert2008}. The state of the system ($x_k$), state transition matrix ($A$), and the measurement matrix($C$) is shown in \eqref{formula:camodel}.
 
-\begin{equation*}
+\begin{equation}
 \label{formula:camodel}
 \begin{split}
 x&= \left[\begin{matrix}
@@ -172,7 +172,7 @@ C&= \left[\begin{matrix}
 0 & 1 & 0 & 0 & 0 & 0
 \end{matrix}\right]
 \end{split}
-\end{equation*}
+\end{equation}
 %$\left[\begin{matrix}
 %s_x & s_y & v_x & v_y & a_x & a_y
 %\end{matrix}\right]^{T}$.\\
@@ -191,15 +191,16 @@ C&= \left[\begin{matrix}
 %0 & 1 & 0 & 0 & 0 & 0
 %\end{matrix}\right]$\\.
 
-\subsection{Point Mass Model}
-It is trivial to note that vehicles might have varying acceleration which is not satisfied in the previous models, which brings us to the Point Mass Model\cite{Althoff} which is similar to the constant acceleration model, except that the acceleration can change upto a certain limit. This model treats the tracked vehicle as a point mass, ignoring wheel-base, slip-angle etc. of the tracked vehicle. The state transition matrix and measurement matrix are same as the constant acceleration model. The acceleration bounds are set as $11.5 m/s^2$ in both x and y-direction for this paper.
+\subsection{Point-Mass Model}
+It is trivial to note that vehicles might have varying acceleration which is not satisfied in the previous models, which brings us to the point-mass model \cite{Althoff}, which is similar to the constant acceleration model, except that the acceleration can strike upto a certain limit. This model treats the tracked vehicle as a point mass, ignoring wheel-base, slip-angle etc. of the tracked vehicle. The state transition and measurement matrices are same as the constant acceleration model. The acceleration bounds are set as $11.5 m/s^2$ in both x and y-direction for this paper.
 
 \section{Zonotopes: The Set Representation}
-Zonotopes are gaining fame in the set-based state estimation techniques \cite{Le2013}, due to its control of wrapping effect and that the Minkowski sum of the zonotope results in zonotopes.
-
 Zonotopes are represented by a center, denoted by $p$ and generators, denoted by $H$. An m-zonotope in $\mathbb{R}^n$ can be defined as an affine transformation by $H$ of an m-dimensional hypercube in $\mathbb{R}^n$ centered at $p$. Minkowski sum, zonotope reduction and convex hull of zonotopes are required to be computed in the state estimation algorithms. The toolbox, CORA (COntinuous Reachability Analyzer) \cite{Althoff2018}, is used to construct zonotopes and apply the computation for zonotopes in the algorithms. 
 \begin{figure}[!h]
 \label{fig:zonotope}
 \includegraphics[scale=.25]{figures/zonotope}
 \caption{An illustration of a zonotope and its interval hull in 2-D}
 \end{figure}
+
+Zonotopes are gaining fame in the set-based state estimation techniques \cite{Le2013}, due to its control of wrapping effect and that the Minkowski sum of the zonotope results in zonotopes. the prediction step for state estimation method can be simplified to basic matrix computation. The functionalities required in the predition method are implemented in the Matlab\textsuperscript{\tiny\textregistered} toolbox CORA.
+

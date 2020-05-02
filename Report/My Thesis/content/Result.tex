@@ -1,5 +1,5 @@
 \chapter{Evaluations} \label{ch:result}
-The INTERACTION Dataset \footnote{https://interaction-dataset.com/} is used to compare the algorithms and models for tracking traffic participants. The dataset contains multiple scenarios in different locations captured using drones or fixed camera over variable amount of time. Each scenario consists of multiple traffic participants, identified by an ID, and each frame per 0.1s has a set of vehicles and their position and velocity in the x and y direction. Over different videos, the location with video of maximum length, 259.43 minutes, is chosen for this paper. There are 60 recorded files in this location with a total of 10,518 vehicles. The position for the vehicles in the x and y-direction is used as a measurement input to the algorithms, whereas the velocity in the x and y-direction is used to calculate the error and evaluate the estimates.The initial state of the system is set using assignments \eqref{eq:initial}.
+The INTERACTION Dataset \footnote{https://interaction-dataset.com/} is used to compare the algorithms and models for tracking traffic participants. The dataset contains multiple scenarios in different locations captured using drones or fixed camera over variable amount of time. Each scenario consists of multiple traffic participants, identified by an ID, and each frame per 0.1s has a set of vehicles and their position and velocity in the x and y direction. Over different videos, the location with video of maximum length, 259.43 minutes, is chosen for this paper. There are 60 recorded files in this location with a total of 10,518 vehicles. The position for the vehicles in the x and y-direction are used as a measurement input to the algorithms, whereas the velocity in the x and y-direction are used to calculate the error and evaluate the estimates. The initial state of the system is set using assignments \eqref{eq:initial}.
 \begin{equation}
 \label{eq:initial}
 \begin{split}
@@ -34,7 +34,7 @@ v_k &= [0.1;0.1]
 	\end{tabular}
 	\label{tab:comptime}
 \end{table}
-Figure \ref{fig:timegraph} shows that computation time for Volume Minimization rises exponentially making it futile in the state estimation for collision avoidance system. On the contrary, Table \ref{tab:comptime} shows that the computation time for the other methods are negligible compared to the frame rate, i.e 100ms. Furthermore, the interval observer using H-$\infty$ has almost half the time required for the segment intersection methods, although the computation time does not consider the time for pre-computation for the techniques.
+Figure \ref{fig:timegraph} shows that computation time for Volume minimization rises exponentially making it futile in the state estimation for collision avoidance system. On the contrary, Tab. \ref{tab:comptime} shows that the computation time for the other methods are negligible compared to the frame rate, i.e 100ms. Furthermore, the interval observer using H-$\infty$ has almost half the time required for the segment intersection methods, although the computation time does not consider the time for pre-computation for the techniques.
 
 
 
@@ -56,10 +56,10 @@ Figure \ref{fig:timegraph} shows that computation time for Volume Minimization r
 	\end{tabular}
 	\label{tab:convtime}
 \end{table}
-Table \ref{tab:convtime} compares the time for each of the technique to converge unmeasured state(velocity for constant velocity, acceleration for the rest). Segment Intersection using F-Radius works the best using Point Mass Model, as it converges the fastest.
+Table \ref{tab:convtime} compares the time for each of the technique to converge unmeasured state(velocity for constant velocity, acceleration for the rest). Segment intersection using F-radius works the best using point-mass model, as it converges the fastest.
 
 
-Section \ref{eresult:setest} in the Extended Result Chapter shows the estimated bounds for all the models on a vehicle with varying acceleration. On comparing the estimation of velocity, same bounds are obtained from constant acceleration and point mass model, however, the bounds of acceleration from the latter is better than the former. Hence, point mass model is used to compare the algorithms for estimating acceleration on the following sections.
+Section \ref{eresult:setest} in the Extended Result chapter shows the estimated bounds for all the models on a vehicle with varying acceleration. On comparing the estimation of velocity, same bounds are obtained from constant acceleration and point-mass model, however, the bounds of acceleration from the latter is better than the former. Hence, point mass model is used to compare the algorithms for estimating acceleration on the following sections.
 
 
 \section{Bounds}
@@ -107,16 +107,16 @@ Section \ref{eresult:setest} in the Extended Result Chapter shows the estimated 
 	\end{tabular}
 	\label{tab:bound}
 \end{table}
-Bounds using constant velocity model is tighter compared to point mass model as seen from Table \ref{tab:bound}. The segment intersection using F-Radius has the tighter bounds compared to the other techniques. Interesting to note, the H$-\infty$ has much higher bounds in the initial time steps.
+Bounds using constant velocity model is tighter compared to point mass model as seen from Table \ref{tab:bound}. Segment intersection using F-radius has tighter bounds compared to the other techniques. Interesting to note, the H$-\infty$ has much higher bounds in the initial time steps.
 
 
 \section{Accuracy}
-Accuracy is represented by the root mean square error(RMSE) of the estimation from the true state of the system. Since, the dataset does not have measurement for acceleration, the accuracy of acceleration cannot evaluated.
+Accuracy is represented by the root mean square error (RMSE) of the estimation from the true state of the system. Since, the dataset does not have measurement for acceleration, the accuracy of acceleration cannot evaluated.
 
-The initial estimation before convergence gives extreme error which affetc the result, hence the estimation after convergence(i.e. after 50 time steps) are allowed in the evaluation. The RMSE is then computed as a percentage from the maximum measurement in the time frame.
+The initial estimation before convergence gives extreme error which affect the result, hence the estimation after convergence(i.e. after 50 time steps) are allowed in the evaluation. The RMSE is then computed as a percentage from the maximum measurement in the time frame.
 
-The boxplot of RMSE using measurements in velocity in x direction using Point Mass Model for all the techniques are shown in Figure \ref{fig:boxplot}. The segment minimization using P-Radius has high range of extremes and the mean error is also greater than the other methods. The range of error is the lowest for H-$\infty$ observer with mean 
-1.9048 and standard deviation of 1.9776 for $velocity_x$. Detailed report of mean and standard deviation of each of the method can be found in table \ref{tab:errormean}. The error expectation from segment minimization from F-Radius is similar to H-$\infty$ observer, however, the error in measured state is slightly lesser in F-Radius compared to H-$\infty$ observer.
+The boxplot of RMSE using measurements in velocity in x direction using Point Mass Model for all the techniques are shown in Figure \ref{fig:boxplot}. The segment minimization using P-radius has high range of extremes and the mean error is also greater than the other methods. The range of error is the lowest for H-$\infty$ observer with mean 
+1.9048 and standard deviation of 1.9776 for $velocity_x$. Detailed report of mean and standard deviation of each of the method can be found in Tab. \ref{tab:errormean}. The error expectation from segment minimization from F-radius is similar to H-$\infty$ observer, however, the error in measured state is slightly lesser in F-Radius compared to H-$\infty$ observer.
 \begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{figures/Error/boxplotall}
