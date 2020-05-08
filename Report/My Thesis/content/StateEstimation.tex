@@ -1,11 +1,5 @@
 \chapter{Zonotope-based guaranteed state estimation} \label{ch:state_estimation}
-State estimation algorithms can be broadly classified into two types: Stochastic and Set-based algorithms. Stochastic state estimation algorithms assume that the uncertainties in the state of the system follow a known probability distribution. It is difficult to fulfill the assumption for such algorithms, however, Zorzi \cite{Zorzi2017} proposed a family of Kalman filters that solves the minimax problem with an iterative probability distribution of the uncertainties.
-
-Set-based algorithms, on the other hand, utilize geometrical sets as domain representation, like ellipsoid or zonotope, to bound the possible sets of state of the system. Zonotopes are better than ellipsoids due to the balance of accuracy and computational cost. Furthermore, zonotopes can control the wrapping effect \cite{Kuhn1998}, which is the term referred to the growth of the estimated state due to the propagated uncertainties in each iteration. In addition, the sum of zonotopes is also a zonotope (Minkowski sum), which is a desirable property for the techniques.
-
-Set-based algorithms can be further classified into segment intersection and interval observer. The former methods focus on intersecting the set of estimated state with the set of predicted state from the measurements. These methods try to minimize the bounds of the estimated state by using different properties, like volume and radius, of the geometric set. The interval observer methods, on the other hand, design observer to minimize the error on each time step. The following sections dig deeper into each of the aforementioned methods.
-
-\section{Segment Intersection} 
+With the essential knowledge on zonotope and vehicle models from the previous chapter, this chapter digs deeper into the state estimation algorithms and discusses how they can be applied to track vehicle dynamics. With the vehicle dynamics represented by \ref{formula:system_segint}, we look into segment intersection techniques (minimizing F-radius, volume and P-radius) and the H-$\infty$-based interval observer.
 \begin{equation}
 \label{formula:system_segint}
 \begin{split}
@@ -13,21 +7,53 @@ x_{k+1} &= Ax_k + Ew_k\\
 y_k &= Cx_k + Fv_k
 \end{split}
 \end{equation}
-For the system in \eqref{formula:system_segint}, let the set of predicted state of the system at time $k$ be denoted by a zonotope, $\overline{\mathcal{X}_k} = p\bigoplus H \textbf{B}^r$. The set to represent the $i^{th}$ state in measurement($y_{k/i}$) at time $k$ is a strip, denoted by $\mathscr{S}_i = \{x \in \mathbb{R} : |C_i x - y_{k/i}| \leq v_{k/i}\}$ \footnote{$C_i$ is the $i^{th}$ row of $C$}. The estimation at time $k$, denoted by $\mathcal{\hat{X}}_k$, is the intersection of the strip, $\mathscr{S}$, and the zonotope $\overline{\mathcal{X}_k}$, which can be parametrized by a vector $\lambda_i \in \mathbb{R}^n$ such that \eqref{formula:lambda}. 
+\section{Segment Intersection} 
+\begin{algorithm}[H]
+        \caption{Segment intersection of state}
+        \textbf{Input} $y$\\
+ 		\textbf{Output} $\overline{x}$, $\underline{x}$
+        \begin{algorithmic}[1]
+        \State $\overline{\mathcal{X}_k}$ $\gets$ \Call{predict}{$\mathcal{\hat{X}}_{k-1}$}
+        \State $\hat{\mathcal{X}_{k}}$ $\gets$ $\overline{\mathcal{X}_k} \cap \overline{\mathcal{X}_y}$ \label{algl:intersect}
+        \State $[\overline{x}$, $\underline{x}]$ $\gets$ \Call{interval}{$\hat{\mathcal{X}}_k$}
+        \State $\hat{\mathcal{X}_{k}}$ $\gets$ $\hat{\mathcal{X}_{k\downarrow m}}$ \label{algl:reduce}
+        \end{algorithmic}
+        \label{alg:segint}
+\end{algorithm}
+Alg.~\ref{alg:segint} shows the overview of segment intersection technique. It starts by predicting the state at time $k$ as $\overline{\mathcal{X}_k} = \langle p , H \rangle $, an $r$-zonotope. Line~\ref{algl:intersect} finds the intersected segment between the prediction and the state consistent with the measurement input. One way to do this is to iteratively find the intersected segment for every measurement in a multi-output system. The set to represent the $i^{th}$ input in measurement at time $k$  is a strip, denoted by $\mathscr{S}_i = \{x \in \mathbb{R} : |C_i x - y_{k/i}| \leq \overline{v}_{k/i}\}$. With $\mathcal{X}_{k/1} = \overline{\mathcal{X}}_k \cap \overline{\mathscr{S}}_0$, $\mathcal{X}_{k/i}$  is intersected with $\mathscr{S}_i$ for $i=2$ to $n_y$. Using Property \ref{prop:intersect}, the $\hat{X}_{k/i}$ can be parametrized by a vector $\lambda_i \in \mathbb{R}^n$ s.t. \ref{formula:lambda} holds.
 \begin{equation}
 \label{formula:lambda}
 \begin{split}
 \mathcal{\hat{X}}_{k/i} &= \hat{p}(\lambda_i) + \hat{H}(\lambda_i)\textbf{B}^{r+1}  \\
-where \quad \hat{p}(\lambda_i) &= p+ \lambda_i(y_{k/i} - C_ip)\\
-and \quad \hat{H}(\lambda_i) &= [(I- \lambda_i C_i) H \quad v_{k/i}\lambda_i ]
+where \quad \hat{p}(\lambda_i) &= p+ \lambda_i(y_{k/i} - C_i p)\\
+and \quad \hat{H}(\lambda_i) &= [(I- \lambda_i C_i) H \quad \overline{v}_{k/i} \lambda_i ]
 \end{split}
 \end{equation}
-The motive of segment intersection methods is to find the value of $\lambda$ such that the intersected segment is compact. For every iteration, the order of the zonotope increases, and hence to reduce accumulating compuation burden, the estimated zonotope is reduced to maximum order of 20 for this paper using the reduction function in CORA. In the following sections, we briefly discuss three different approaches to solve $\lambda$ that parametrizes the minimum intersected zonotope by focusing on three distinguishing properties of zonotope.
+The motive of all segment intersection methods is to find the value of $\lambda$ such that the intersected segment is compact. Once the intersected segment is computed, the upper and lower bounds of the estimation can easily be derived using the Property \ref{prop:overapprox}.
 
-\subsection{Frobenius norm of generators}
-This algorithm solves the problem by minimizing the F-norm of the generators of the intersected zonotope. Let us rewrite $\hat{H}(\lambda)$ as $A+ \lambda b^T$ such that $A= [H \quad 0]$ and $b^T = [-C_i H \quad v_{k/i}]$.
+For every iteration, the order of the zonotope, and hence computation overhead, increases. It can be prevented by reducing the zonotope to a maximum order of $m$ as shown in Line \ref{algl:reduce}.
 
-Thus, the Frobenius norm of the generators of a zonotope is calculated using the formula \eqref{fnormformula}\cite{Alamo2005}.
+\subsection{F-radius}
+\begin{algorithm}[H]
+        \caption{Segment minimization}
+        \textbf{Input:} $y_k$\\
+ 		\textbf{Output:} $\overline{x_k}$, $\underline{x_k}$
+        \begin{algorithmic}[1]
+        \State $\overline{\mathcal{X}_k}$ $\gets$ \Call{predict}{$\hat{\mathcal{X}}_{k-1}$}
+        \State $\langle p,H \rangle$ $\gets$ $\mathcal{\overline{X}}_k$
+        \For{$i$ $\gets$ $0$ to $n_y$}
+        	\State $\lambda_i$ $\gets$ \Call{calculate\_lambda}{$H, C, \overline{v}_{k/i}$} \label{algl:lambda}
+        	\State $p$ $\gets$ $p + \lambda_i (y_{k/i} - C_i p)$ \label{algl:center}
+        	\State $H$ $\gets$ $[(I- \lambda_i C_i)H \quad \overline{v}_{k/i}\lambda_i]$  \label{algl:g}
+        \EndFor
+        \State $\hat{\mathcal{X}_k}$ $\gets$ $\langle p, H \rangle$
+        \State $[\overline{x_k}, \underline{x_k}]$ $\gets$ \Call{interval}{$\hat{\mathcal{X}}_k$}
+        \State $\hat{\mathcal{X}_k}$ $\gets$ $\hat{\mathcal{X}_k}_{\downarrow m}$
+        \end{algorithmic}
+        \label{alg:fnorm}
+\end{algorithm}
+One approach to minimize the intersected segment is to minimize the F-radius of the resulted zonotope. The F-radius of a zonotope is the F-norm of its generators. Alg~\ref{alg:fnorm} presents the algorithm to implement this approach.\\
+Line~\ref{algl:lambda} is responsible to compute the $\lambda_i$ that corresponds to minimize the F-radius. To derive the $\lambda_i$, let us rewrite $\hat{H}_i(\lambda_i)$ from Eq. \ref{formula:lambda} as $A + \lambda b^T$ such that $A= [H \quad 0]$ and $b^T = [-C_i H \quad \overline{v}_{k/i}]$. Thus, the Frobenius norm of the generators of a zonotope can be calculated using the formula \eqref{fnormformula}. Refer to \cite{Alamo2005} for proof.
 \begin{equation}
 \label{fnormformula}
 \begin{split}
@@ -38,72 +64,55 @@ Thus, the Frobenius norm of the generators of a zonotope is calculated using the
 
 \begin{equation}
 \label{lambdaformula}
-\lambda^* = \frac{-Ab }{b^Tb}  = \frac{HH^TC_i^T}{C_i HH^TC_i^T} + v_{k/i}^2
+\lambda^* = \frac{-Ab }{b^Tb}  = \frac{HH^T(C_i)^T}{C_i HH^T(C_i)^T + \overline{v}_{k/i}^2} 
 \end{equation}
 
-The $\lambda^*$ that corresponds to the minimum Frobenius norm of the generators of the intersected zonotope is calculated using the formula \eqref{lambdaformula} for each measurement in each iteration and the minimum zonotope to represent the estimation is calculated.
+The $\lambda^*$ that corresponds to the minimum F-radius of the intersected zonotope is calculated using the formula \eqref{lambdaformula} for each measurement in each iteration. With the $\lambda$, the intersected segment is computed as shown in Line~\ref{algl:center} and \ref{algl:g} in Alg.~\ref{alg:fnorm}. The rest of the steps consist of finding the bounds and reducing the zonotope order. 
 
+This approach is used when a fast real-time state estimation is needed. However, sharper bounds of estimation can be obtained by using zonotope volume.
 
-\begin{algorithm}
-		
-        \caption{Estimation by minimizing F-norm of intersected segment}
-        \textbf{Input:} $y_k$\\
- 		\textbf{Output:} $\overline{x_k}$, $\underline{x_k}$
-        \begin{algorithmic}[1]
-        \State $\langle p,H \rangle$ $\gets$ $\mathcal{X}$
-        \For{$j$ $\gets$ $0$ to $n_y$}
-        	\State $\lambda$ $\gets$ \Call{calculate\_lambda}{$H, C_j, V_j$}
-        	\State $p$ $\gets$ $p + \lambda (y_{k/j} - C_j p)$
-        	\State $H$ $\gets$ $[(I- \lambda C_j)H \quad V_j\lambda]$ 
-        \EndFor
-        \State $\mathcal{X}$ $\gets$ $\langle p, H \rangle$
-        \State $[\overline{x_k}, \underline{x_k}]$ $\gets$ \Call{interval}{$\mathcal{X}$}
-        \State $\mathcal{X}$ $\gets$ $\mathcal{X}_{\downarrow m}$
-        \end{algorithmic}
-        \label{alg:fnorm}
-\end{algorithm}
 \subsection{Volume}
-Volume is a precise metric directly proportional to the size of the zonotope. The volume of the $\mathcal{\hat{X}}_k$ for $i^{th}$ measurement state is \cite{Alamo2005}:
+The volume of $\mathcal{\hat{X}}$ for the $i^{th}$ measurement state is \cite{Alamo2005}:
 \begin{equation}
 \label{volumeformula}
 \begin{split}
-Vol(\hat{X}(\lambda))=& 2^n \sum^{N(n,r)}_{j=1} |[(I - \lambda C_i)det(A_j)|\\
-&+ 2^n \sum^{N(n-1,r)}_{j=1} \sigma|det[(I- \lambda C_i)B_j\quad v_k/i\lambda]|
+Vol(\hat{X}(\lambda))=& 2^n \sum^{N(n,r)}_{j=1} |det[(I - \lambda C_i)A_j]|\\
+&+ 2^n \sum^{N(n-1,r)}_{j=1} |det[(I- \lambda C_i)B_j\quad \overline{v}_{k/i}\lambda]|
 \end{split}
 \end{equation}
-where $N(n,r)$ denotes the number of combinations of $r$ elements from a set of $n$ elements, $A_j$ and $B_j$ denote each of the different matrices generated by choosing $n$ and $n-1$ columns from $H$ respectively. 
+where $N(n,r)$ denotes the number of combinations of $r$ elements from a set of $n$ elements. $A_j$ and $B_j$ denote each of the different matrices generated by choosing $n$ and $n-1$ columns from $H$ respectively. 
 
-For this paper, the \texttt{zonotope.volume} function provided by CORA is used along with \texttt{fmincon} solver in Matlab\textsuperscript{\tiny\textregistered} to find the value of $\lambda$ corresponding to the minimum volume of the intersected zonotope. Although volume minimizes the intersected zonotope significantly, the calculation of volume is extremely computationally heavy. Therefore, it works best for use-cases that are not time-sensitive, e.g. fault diagnosis and fault-tolerant control systems \cite{Puig2010}. 
+The algorithm is same as F-radius (Alg.~\ref{alg:fnorm}), with the exception in the $\lambda$ calculation in Line~\ref{algl:lambda}. The \texttt{zonotope.volume} function provided by CORA along with \texttt{fmincon} solver in Matlab\textsuperscript{\tiny\textregistered}  can be used to find the value of $\lambda$ corresponding to the minimum volume of the intersected zonotope. \\
+Although volume minimization significantly improves the intersected zonotope, the computations are extremely heavy. Therefore, it works best for use-cases that are not time-sensitive, e.g. fault diagnosis and fault-tolerant control systems \cite{Puig2010}. 
 \subsection{P-radius}
 The P-radius of a zonotope can be calculated with the formula \eqref{pradformula} where $P$ is a positive definite matrix \cite{Alamo2005}.
 \begin{equation}
 \label{pradformula}
 \underset{z \in Z}{max} (||z - p||^2_{P}) = \underset{z \in Z}{max}((z-p)^T P (z-p))
 \end{equation}
-To make sure the P-radius does not increase in every iteration, $\lambda$ can be computed off-line by solving the LMI(Linear Matrix Inequality) in Equation \eqref{eq:pradlmi} using Mosek solver in Matlab\textsuperscript{\tiny\textregistered}.
+The $\lambda$, to parametrize non-increasing P-radius, can be computed off-line by solving the LMI (Linear Matrix Inequality) in Equation \eqref{eq:pradlmi}. The $\beta \in (0,1]$ can be found using binary search and $\lambda$ can be solved using Mosek solver in Matlab\textsuperscript{\tiny\textregistered}.
 \begin{equation}
 \label{eq:pradlmi}
 \left[
 \begin{matrix}
-\beta & P & 0 & A^TP - A^TC_iY^T\\
+\beta P & 0 & 0 & A^TP - A^TC_iY^T\\
 * & F^TF & 0 & F^TP -F^TC_iY^T\\
-* & * & v_k/i ^2 & Y^Tv_k/i\\
+* & * & \overline{v}_{k/i}^2 & Y^T\overline{v}_{k/i}\\
 * & * & * & P
 \end{matrix}\right] \succeq 0,
 where\quad Y = P\lambda_i
 \end{equation}
-
-Due to off-line computation, this method is substantially faster and has been used in lower accuracy-prone systems like secure monitoring of cyber-physical systems against attacks \cite{GE20201592}.
+Due to off-line computation, this method is substantially faster. In contrast, the over-approximation parameter, $\lambda$ does not correct itself with measurements.Therefore, it has been used in lower accuracy-prone systems like secure monitoring of cyber-physical systems against attacks \cite{GE20201592}. 
 
 \section{Interval Observer}
-Interval observers need to design observers to minimize the error in the estimation. For the system in \eqref{formula:system_segint}, \eqref{formula:observer} defines the observer, where $L$ is the observer gain to be designed. The design of such observers is not very easy. The following section discusses about a method, which uses H-$\infty$ observer design.
+Interval observers require accurate design of observers to minimize the error in the estimation. For the system in \eqref{formula:system_segint}, \eqref{formula:observer} defines the observer, where $L$ is the observer gain to be designed. The design of such observers is not very easy. The following section discusses about a method, which uses H-$\infty$ observer combined with reachability analysis.
 \begin{equation}
 \label{formula:observer}
 x_{k+1} = Ax_k + L(y_k -Cx_k)
 \end{equation}
 
 \subsection{H-$\infty$ Observer}
-The interval observer, proposed in \cite{Tang2019}, designs the observer gain to minimize the estimation error in each step by using the observer gain as $L= P^{-1}Y$ with $P$, a positive definite matrix with dimension $n_x \times n_x$, and $Y$, a matrix with dimension $n_x \times n_y$, both solution to the optimization problem in \eqref{eq:optimizationprob}.
+The interval observer, proposed in \cite{Tang2019},computes the observer gain as $L= P^{-1}Y$ with $P$, a positive definite matrix with dimension $n_x \times n_x$, and $Y$, a matrix with dimension $n_x \times n_y$, both solution to the optimization problem in \eqref{eq:optimizationprob}.
 \begin{equation}
 \label{eq:optimizationprob}
 \underset{\gamma _2}{min} \;
@@ -119,7 +128,7 @@ PA-YC & PE & -YF & -P
 \end{matrix}\right]  \prec 0
 \end{equation} 
 
-With $L$ derived using a Mosek solver in Matlab\textsuperscript{\tiny\textregistered}, the estimator is initialized with a $model$ and the following parameters\\
+With $L$ derived using a Mosek solver in Matlab\textsuperscript{\tiny\textregistered}, the estimator is initialized with the following parameters\\
 \begin{equation}
 \begin{split}
 \mathcal{W} = \langle 0, H_w\rangle,& \quad \mathcal{V} = \langle 0,H_v\rangle\\

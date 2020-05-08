@@ -3,9 +3,9 @@ The INTERACTION Dataset \footnote{https://interaction-dataset.com/} is used to c
 \begin{equation}
 \label{eq:initial}
 \begin{split}
-x_0 &= zonotope([zeros(n), diag([1000;1000;10;10;10;10])])\\
-w_k &= [0.1;0.1;0.4;0.4;0.1;0.1]\\
-v_k &= [0.1;0.1]
+\mathcal{X}_0 &= \langle 0, diag([1000\quad 1000\quad 10 \quad10\quad 10\quad 10]^T) \rangle\\
+\overline{w_k} &= [0.1\quad 0.1\quad 0.4\quad 0.4\quad 0.1\quad 0.1]^T\\
+\overline{v_k} &= [0.1\quad 0.1]^T
 \end{split}
 \end{equation}
 
@@ -20,17 +20,18 @@ All the evaluation is carried out by single-threaded scripts run on an Intel(R) 
 \end{figure}
 
 \begin{table}[htbp]
-\caption{Comparison of computation time (ms) using Constant Velocity Model\\}
+\caption{Comparison of computation time (ms)\\}
 	\centering
 	\renewcommand{\arraystretch}{1.1}
 	\small	
-	\begin{tabular}{l l}
-		\toprule 
-		\textbf{Method} & \textbf{Average Computation Time (ms)}\\ \midrule
+	\begin{tabular}{l l l l}
+		\toprule
+		& \multicolumn{3}{c}{\textbf{Average Computation Time (ms)}}\\
+		\textbf{Method} & CV model & CA model & PM model\\ \midrule
 		%-------------------------------------		
-		F-Radius & 0.375\\
-		P-Radius &0.319\\
-		H-$\infty$ approximation & 0.147\\
+		F-Radius & 0.396 & 0.375 & 0.621 \\
+		P-Radius & 0.312 & 0.319 & 0.544\\
+		H-$\infty$ approximation & 0.145 & 0.147 & 0.144\\
 		%--------------------------------------		
 		\bottomrule
 	\end{tabular}

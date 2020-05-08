@@ -22,6 +22,47 @@ volume = {20},
 year = {2010}
 }
 
+@article{Combastel2003,
+abstract = {The proposed observer computes an outer approximation of the set of states which are consistent with a given uncertain state space model and some measurements. The uncertainties are modeled by unknown but bounded inputs. A representation of domains by zonotopes (particular polytopes) is used to reduce the computation of state bounds to rather simple matrix operations and to control the wrapping effect.},
+annote = {Single Value Decomposition},
+author = {Combastel, C.},
+doi = {10.23919/ecc.2003.7085991},
+file = {:home/behtarin/Documents/Thesis/Literature/Segment Mini/svd1.pdf:pdf},
+isbn = {9783952417379},
+journal = {European Control Conference, ECC 2003},
+keywords = {Bounded error,Observer,Set-membership estimation,State bounding,Zonotopes},
+mendeley-groups = {Thesis/New},
+pages = {2589--2594},
+publisher = {IEEE},
+title = {{A state bounding observer based on zonotopes}},
+year = {2003}
+}
+
+@article{Puig2003,
+author={Puig, Vicen{\c{c}}
+and Saludes, Jordi
+and Quevedo, Joseba},
+title={Worst-Case Simulation of Discrete Linear Time-Invariant Interval Dynamic Systems},
+journal={Reliable Computing},
+year={2003},
+month={Aug},
+day={01},
+volume={9},
+number={4},
+pages={251-290},
+abstract={In this paper, a new approach to worst-case simulation of discrete linear time- invariant interval dynamic systems is proposed. For stable systems, the new approach solves the problem of worst-case simulation by determining the interval hull enclosing the system states region at every iteration through optimisation. The originality of this approach is that it maintains time-invariant parametric uncertainties during the simulation process. Several previous algorithms have considered the case of parametric time-varying uncertainties (El Ghauoi, L., Calafiore, G.: Worst-Case Simulation of Uncertain Systems, in: Garulli, A., Tesi, A., and Vicino, A. (eds), Robustness in Identification and Control, Springer, London, 1999). However, Cuguer' o (Avoiding Possible Instability in Robust Simulation of Stable Parametric Uncertain Time-Invariant Systems, in: Proceedings of 40th Conference on Decision and Control, Florida, 2001) has presented possible instability problems when simulating a time-invariant uncertain system as if it were time-varying, this result being the motivation for the approach proposed in this paper. The optimisation problem associated with the approach proposed must be solved globally in order to guarantee that the minimum volume box enclosing the region of system states has been derived. In this paper, a global optimisation algorithm based on an interval branch and bound strategy is proposed. Finally, two real application examples are used to test the performance of the approach proposed.},
+issn={1573-1340},
+doi={10.1023/A:1024666428387},
+url={https://doi.org/10.1023/A:1024666428387}
+}
+@article{Puig2001,
+  title={Worst-case state estimation and simulation of uncertain discrete-time systems using zonotopes},
+  author={Vicenç Puig and Pep Cuguer{\'o} and Joseba Quevedo},
+  journal={2001 European Control Conference (ECC)},
+  year={2001},
+  pages={1691-1697}
+}
+
 
 
 @InProceedings{Koschi2017a,
@@ -176,6 +217,30 @@ title = {{Guaranteed state estimation by zonotopes}},
 year = {2005}
 }
 
+@article{Le2012,
+abstract = {This paper presents an improved method for guaranteed state estimation of discrete-time linear-time varying systems affected by disturbances, noises and structured uncertainties modeled as interval uncertainties. Under the hypothesis that the disturbances and the noises are bounded, a zonotopic outer approximation of the state estimation domain is computed offering good performance and low complexity compared to the existing methods. The size of this zonotope is decreased by solving an off-line optimization problem. The advantages of the proposed approach are illustrated via a numerical example. {\textcopyright} 2012 AACC American Automatic Control Council).},
+author = {Le, V. T.H. and Alamo, T. and Camacho, E. F. and Stoica, C. and Dumur, D.},
+doi = {10.1109/acc.2012.6315065},
+file = {:home/behtarin/Documents/Thesis/Literature/Segment Mini/prad4.pdf:pdf},
+isbn = {9781457710957},
+issn = {07431619},
+journal = {Proceedings of the American Control Conference},
+keywords = {41092 sevilla,alamo,atica,camino de los descubrim-,cartuja,e-mail,eduardo,es,esi,ientos,spain,universidad de sevilla,us,y autom},
+mendeley-groups = {Thesis/New},
+pages = {6787--6792},
+title = {{Zonotopic set-membership estimation for interval dynamic systems}},
+year = {2012}
+}
+
+
+@article{Althoff2010,
+author = {Althoff, Matthias},
+file = {:home/behtarin/Documents/Thesis/Literature/642175.pdf:pdf},
+mendeley-groups = {Vehicle Tracking,Thesis,Thesis/New},
+title = {{ur Steuerungs- und Regelungstechnik Technische Universit ¨ at M ¨ unchen Reachability Analysis and its Application to the Safety Assessment of Autonomous Cars}},
+year = {2010}
+}
+
 
 @article{Le2013,
 abstract = {This paper presents a new approach for guaranteed state estimation based on zonotopes for linear discrete-time multivariable systems with interval multiplicative uncertainties, in the presence of bounded state perturbations and noises. At each sample time, the presented approach computes a zonotope which contains the real system state. A P-radius-based criterion is minimized in order to decrease the size of the zonotope at each sample time and to obtain an increasingly accurate state estimation. The proposed approach allows one to efficiently handle the trade-off between the complexity of the computation and the accuracy of the estimation. An illustrative example is analyzed in order to highlight the advantages of the proposed state estimation technique. {\textcopyright} 2013 Elsevier Ltd. All rights reserved.},
@@ -196,7 +261,21 @@ author = {Althoff, Matthias and Kochdumper, Niklas and Arch, Cora},
 title = {{CORA 2018 Manual}},
 year = {2018}
 }
-
+@article{Kalman,
+    author = {Kalman, R. E.},
+    title = "{A New Approach to Linear Filtering and Prediction Problems}",
+    journal = {Journal of Basic Engineering},
+    volume = {82},
+    number = {1},
+    pages = {35-45},
+    year = {1960},
+    month = {03},
+    abstract = "{The classical filtering and prediction problem is re-examined using the Bode-Shannon representation of random processes and the “state-transition” method of analysis of dynamic systems. New results are: (1) The formulation and methods of solution of the problem apply without modification to stationary and nonstationary statistics and to growing-memory and infinite-memory filters. (2) A nonlinear difference (or differential) equation is derived for the covariance matrix of the optimal estimation error. From the solution of this equation the co-efficients of the difference (or differential) equation of the optimal linear filter are obtained without further calculations. (3) The filtering problem is shown to be the dual of the noise-free regulator problem. The new method developed here is applied to two well-known problems, confirming and extending earlier results. The discussion is largely self-contained and proceeds from first principles; basic concepts of the theory of random processes are reviewed in the Appendix.}",
+    issn = {0021-9223},
+    doi = {10.1115/1.3662552},
+    url = {https://doi.org/10.1115/1.3662552},
+    eprint = {https://asmedigitalcollection.asme.org/fluidsengineering/article-pdf/82/1/35/5518977/35\_1.pdf},
+}
 @article{GE20201592,
 abstract = {This paper is concerned with the resilient and secure remote monitoring of a cyber-physical system of a discrete time-varying state-space form against attacks. The specific statistical characteristic, magnitude, occurring place and time of the attack signals are not required during the monitor design and attack detection procedures. First, an optimal ellipsoidal state prediction and estimation method is delicately developed in such a way that the recursively computed prediction ellipsoid and estimate ellipsoid can both guarantee the containment of the true system state at each time step regardless of the unknown but bounded input signal. It is expected that the two ellipsoids can resist certain attacks as the calculated state prediction and state estimate are sets in state-space rather than single pointwise vectors, thus potentially enhancing the resilience of the remote monitoring system. Second, a set-based evaluation mechanism in combination with a remedy measure are proposed to provide timely detection of certain attacks. Furthermore, a numerically efficient algorithm is established to achieve resilience and attack detection of the remote monitoring system. Finally, it is shown through several case studies on a water supply distribution system that the proposed methods can provide quantitative analysis and evaluation of the potential consequences of various attacks on the remote monitoring system.},
 author = {Ge, Xiaohua and Han, Qing-Long and Zhang, Xian-Ming and Ding, Derui and Yang, Fuwen},
@@ -210,8 +289,36 @@ url = {http://www.sciencedirect.com/science/article/pii/S0020025519310254},
 volume = {512},
 year = {2020}
 }
+@Article{Mazenc2011,
+author={Mazenc, Fr{\'e}d{\'e}ric
+and Bernard, Olivier},
+title={Interval observers for linear time-invariant systems with disturbances},
+journal={Automatica},
+year={2011},
+month={Jan},
+day={01},
+volume={47},
+number={1},
+pages={140-147},
+keywords={Interval observer; Linear system; Exponential stability},
+abstract={It is shown that, for any time-invariant exponentially stable linear system with additive disturbances, time-varying exponentially stable interval observers can be constructed. The technique of construction relies on the Jordan canonical form that any real matrix admits and on time-varying changes of coordinates for elementary Jordan blocks which lead to cooperative linear systems. The approach is applied to detectable linear systems.},
+issn={0005-1098},
+url={http://www.sciencedirect.com/science/article/pii/S0005109810004334}
+}
 
 
+
+@article{Raissi2012,
+author = {Ra{\"{i}}ssi, Tarek and Efimov, Denis and Zolghadri, Ali},
+file = {:home/behtarin/Documents/Thesis/Literature/observer/05983407.pdf:pdf},
+mendeley-groups = {Thesis/observer},
+number = {1},
+pages = {260--265},
+publisher = {IEEE},
+title = {{Interval State Estimation for a Class of Nonlinear Systems}},
+volume = {57},
+year = {2012}
+}
 
 
 
