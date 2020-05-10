@@ -17,7 +17,7 @@ With every participant modeled as \eqref{formula:system}, the initial state is s
 \end{split}
 \end{equation}
 
-All the evaluation are carried out by single-threaded scripts run on an Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz machine with MATLAB\textsuperscript{\tiny\textregistered} 2019b. The CORA toolbox is used for set computations; the Mosek solver in YALMIP toolbox is used to solve the optimization problems.
+All the evaluation are carried out by single-threaded scripts run on an Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz machine with MATLAB\textsuperscript{\tiny\textregistered} 2019b. The CORA toolbox is used for set computations; the Mosek solver in YALMIP toolbox is used to solve the optimization problems. Templates to implement model and estimator in MATLAB\textsuperscript{\tiny\textregistered} is attached in the Appendix~\ref{app:code}.
 
 \section{Computation Time}
 \begin{figure}[H]
@@ -76,7 +76,7 @@ In general, the point-mass model delays the time to converge. Interestingly, the
 
 \section{Bounds}
 \begin{figure}[h]
-\includegraphics[scale=0.8]{figures/legend}\\
+\centering \includegraphics[scale=0.8]{figures/legend}\\
 \begin{subfigure}{0.32\textwidth}
 \centering
 \includegraphics[width=\linewidth]{figures/sm}\caption{F-radius minimizer}
