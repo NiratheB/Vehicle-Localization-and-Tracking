@@ -1,5 +1,5 @@
 \chapter{Zonotope-based guaranteed state estimation} \label{ch:state_estimation}
-With the essential knowledge on zonotope and vehicle models from the previous chapter, this chapter digs deeper into the state estimation algorithms and discusses how they can be applied to track vehicle dynamics. With the vehicle dynamics represented by \ref{formula:system_segint}, we look into segment intersection techniques (minimizing F-radius, volume and P-radius) and the H-$\infty$-based interval observer.
+With the essential knowledge on zonotope and vehicle models from the previous chapter, this chapter digs deeper into the state estimation algorithms in terms of vehicle dynamics. With the vehicle dynamics represented by \eqref{formula:system_segint} (refer to \eqref{formula:system} for details), we look into segment intersection techniques (minimizing F-radius, volume and P-radius) and an H-$\infty$-based interval observer.
 \begin{equation}
 \label{formula:system_segint}
 \begin{split}
@@ -9,7 +9,7 @@ y_k &= Cx_k + Fv_k
 \end{equation}
 \section{Segment Intersection} 
 \begin{algorithm}[H]
-        \caption{Segment intersection of state}
+        \caption{State estimation using segment intersection}
         \textbf{Input} $y$\\
  		\textbf{Output} $\overline{x}$, $\underline{x}$
         \begin{algorithmic}[1]
@@ -20,7 +20,7 @@ y_k &= Cx_k + Fv_k
         \end{algorithmic}
         \label{alg:segint}
 \end{algorithm}
-Alg.~\ref{alg:segint} shows the overview of segment intersection technique. It starts by predicting the state at time $k$ as $\overline{\mathcal{X}_k} = \langle p , H \rangle $, an $r$-zonotope. Line~\ref{algl:intersect} finds the intersected segment between the prediction and the state consistent with the measurement input. One way to do this is to iteratively find the intersected segment for every measurement in a multi-output system. The set to represent the $i^{th}$ input in measurement at time $k$  is a strip, denoted by $\mathscr{S}_i = \{x \in \mathbb{R} : |C_i x - y_{k/i}| \leq \overline{v}_{k/i}\}$. With $\mathcal{X}_{k/1} = \overline{\mathcal{X}}_k \cap \overline{\mathscr{S}}_0$, $\mathcal{X}_{k/i}$  is intersected with $\mathscr{S}_i$ for $i=2$ to $n_y$. Using Property \ref{prop:intersect}, the $\hat{X}_{k/i}$ can be parametrized by a vector $\lambda_i \in \mathbb{R}^n$ s.t. \ref{formula:lambda} holds.
+Alg.~\ref{alg:segint} shows the overview of segment intersection technique. It starts by predicting the state at time $k$ as $\overline{\mathcal{X}_k} = \langle p , H \rangle $, an $r$-zonotope. Line~\ref{algl:intersect} finds the intersected segment between the prediction and the state consistent with the measurement input. One way to do this is to iteratively find the intersected segment for every measurement in a multi-output system. The set to represent the $i^{th}$ input in measurement at time $k$  is a strip, denoted by $\mathscr{S}_i = \{x \in \mathbb{R} : |C_i x - y_{k/i}| \leq \overline{v}_{k/i}\}$. With $\hat{\mathcal{X}}_{k/1} = \overline{\mathcal{X}}_k \cap \overline{\mathscr{S}}_0$, $\hat{\mathcal{X}}_{k/i}$  is intersected with $\mathscr{S}_i$ for $i=2$ to $n_y$. Using Property \ref{prop:intersect}, the $\hat{X}_{k/i}$ can be parameterized by a vector $\lambda_i \in \mathbb{R}^n$ s.t. \eqref{formula:lambda} holds.
 \begin{equation}
 \label{formula:lambda}
 \begin{split}
@@ -53,7 +53,7 @@ For every iteration, the order of the zonotope, and hence computation overhead, 
         \label{alg:fnorm}
 \end{algorithm}
 One approach to minimize the intersected segment is to minimize the F-radius of the resulted zonotope. The F-radius of a zonotope is the F-norm of its generators. Alg~\ref{alg:fnorm} presents the algorithm to implement this approach.\\
-Line~\ref{algl:lambda} is responsible to compute the $\lambda_i$ that corresponds to minimize the F-radius. To derive the $\lambda_i$, let us rewrite $\hat{H}_i(\lambda_i)$ from Eq. \ref{formula:lambda} as $A + \lambda b^T$ such that $A= [H \quad 0]$ and $b^T = [-C_i H \quad \overline{v}_{k/i}]$. Thus, the Frobenius norm of the generators of a zonotope can be calculated using the formula \eqref{fnormformula}. Refer to \cite{Alamo2005} for proof.
+In line~\ref{algl:lambda}, the $\lambda_i$, corresponding to segment with minimum F-radius, is computed. To derive the $\lambda_i$, let us rewrite $\hat{H}_i(\lambda_i)$ from Eq. \ref{formula:lambda} as $A + \lambda b^T$ such that $A= [H \quad 0]$ and $b^T = [-C_i H \quad \overline{v}_{k/i}]$. Thus, the Frobenius norm of the generators of a zonotope can be calculated using the formula \eqref{fnormformula}. Refer to \cite{Alamo2005} for proof.
 \begin{equation}
 \label{fnormformula}
 \begin{split}
@@ -67,7 +67,7 @@ Line~\ref{algl:lambda} is responsible to compute the $\lambda_i$ that correspond
 \lambda^* = \frac{-Ab }{b^Tb}  = \frac{HH^T(C_i)^T}{C_i HH^T(C_i)^T + \overline{v}_{k/i}^2} 
 \end{equation}
 
-The $\lambda^*$ that corresponds to the minimum F-radius of the intersected zonotope is calculated using the formula \eqref{lambdaformula} for each measurement in each iteration. With the $\lambda$, the intersected segment is computed as shown in Line~\ref{algl:center} and \ref{algl:g} in Alg.~\ref{alg:fnorm}. The rest of the steps consist of finding the bounds and reducing the zonotope order. 
+The $\lambda^*$ that corresponds to the minimum F-radius of the intersected zonotope is calculated using the formula \eqref{lambdaformula} for each measurement. With the $\lambda$, the intersected segment is computed as shown in Line~\ref{algl:center} and \ref{algl:g} in Alg.~\ref{alg:fnorm}. The remaining steps find the bounds, and reduce the zonotope order. 
 
 This approach is used when a fast real-time state estimation is needed. However, sharper bounds of estimation can be obtained by using zonotope volume.
 
@@ -82,7 +82,7 @@ Vol(\hat{X}(\lambda))=& 2^n \sum^{N(n,r)}_{j=1} |det[(I - \lambda C_i)A_j]|\\
 \end{equation}
 where $N(n,r)$ denotes the number of combinations of $r$ elements from a set of $n$ elements. $A_j$ and $B_j$ denote each of the different matrices generated by choosing $n$ and $n-1$ columns from $H$ respectively. 
 
-The algorithm is same as F-radius (Alg.~\ref{alg:fnorm}), with the exception in the $\lambda$ calculation in Line~\ref{algl:lambda}. The \texttt{zonotope.volume} function provided by CORA along with \texttt{fmincon} solver in Matlab\textsuperscript{\tiny\textregistered}  can be used to find the value of $\lambda$ corresponding to the minimum volume of the intersected zonotope. \\
+The algorithm is same as F-radius (Alg.~\ref{alg:fnorm}), with the exception in the $\lambda$ calculation in Line~\ref{algl:lambda}. The \texttt{zonotope.volume} function provided by CORA along with \texttt{fmincon} solver in Matlab\textsuperscript{\tiny\textregistered}  can be used to find the value of $\lambda$, parameterizing the intersected segment with minimum volume. \\
 Although volume minimization significantly improves the intersected zonotope, the computations are extremely heavy. Therefore, it works best for use-cases that are not time-sensitive, e.g. fault diagnosis and fault-tolerant control systems \cite{Puig2010}. 
 \subsection{P-radius}
 The P-radius of a zonotope can be calculated with the formula \eqref{pradformula} where $P$ is a positive definite matrix \cite{Alamo2005}.
@@ -90,7 +90,7 @@ The P-radius of a zonotope can be calculated with the formula \eqref{pradformula
 \label{pradformula}
 \underset{z \in Z}{max} (||z - p||^2_{P}) = \underset{z \in Z}{max}((z-p)^T P (z-p))
 \end{equation}
-The $\lambda$, to parametrize non-increasing P-radius, can be computed off-line by solving the LMI (Linear Matrix Inequality) in Equation \eqref{eq:pradlmi}. The $\beta \in (0,1]$ can be found using binary search and $\lambda$ can be solved using Mosek solver in Matlab\textsuperscript{\tiny\textregistered}.
+The $\lambda$, to parametrize non-increasing P-radius, can be computed off-line by solving the LMI (Linear Matrix Inequality) in Equation \eqref{eq:pradlmi}. The $\beta \in (0,1]$ can be found using binary search, and $\lambda$ can be solved using Mosek solver in Matlab\textsuperscript{\tiny\textregistered}.
 \begin{equation}
 \label{eq:pradlmi}
 \left[
@@ -102,17 +102,17 @@ The $\lambda$, to parametrize non-increasing P-radius, can be computed off-line 
 \end{matrix}\right] \succeq 0,
 where\quad Y = P\lambda_i
 \end{equation}
-Due to off-line computation, this method is substantially faster. In contrast, the over-approximation parameter, $\lambda$ does not correct itself with measurements.Therefore, it has been used in lower accuracy-prone systems like secure monitoring of cyber-physical systems against attacks \cite{GE20201592}. 
+Due to off-line computation, this method is expected to be substantially faster in comparison to the previous methods. In contrast, the over-approximation parameter, $\lambda$, does not correct itself with measurements. Therefore, it has been used in lower accuracy-prone systems like secure monitoring of cyber-physical systems against attacks \cite{GE20201592}. 
 
 \section{Interval Observer}
-Interval observers require accurate design of observers to minimize the error in the estimation. For the system in \eqref{formula:system_segint}, \eqref{formula:observer} defines the observer, where $L$ is the observer gain to be designed. The design of such observers is not very easy. The following section discusses about a method, which uses H-$\infty$ observer combined with reachability analysis.
+Interval observers require accurate design of observers to minimize the error in the estimation. For the system in \eqref{formula:system_segint}, \eqref{formula:observer} defines the observer, where $L$ is the observer gain to be designed. The design of such observers is not very easy. The following section discusses a method, which uses H-$\infty$ observer combined with reachability analysis.
 \begin{equation}
 \label{formula:observer}
 x_{k+1} = Ax_k + L(y_k -Cx_k)
 \end{equation}
 
-\subsection{H-$\infty$ Observer}
-The interval observer, proposed in \cite{Tang2019},computes the observer gain as $L= P^{-1}Y$ with $P$, a positive definite matrix with dimension $n_x \times n_x$, and $Y$, a matrix with dimension $n_x \times n_y$, both solution to the optimization problem in \eqref{eq:optimizationprob}.
+\subsection{H-$\infty$-based Observer}
+The interval observer, proposed in \cite{Tang2019}, computes the observer gain as $L= P^{-1}Y$ with $P$, a positive definite matrix with dimension $n_x \times n_x$, and $Y$, a matrix with dimension $n_x \times n_y$, both solution to the optimization problem in \eqref{eq:optimizationprob}.
 \begin{equation}
 \label{eq:optimizationprob}
 \underset{\gamma _2}{min} \;
@@ -128,12 +128,12 @@ PA-YC & PE & -YF & -P
 \end{matrix}\right]  \prec 0
 \end{equation} 
 
-With $L$ derived using a Mosek solver in Matlab\textsuperscript{\tiny\textregistered}, the estimator is initialized with the following parameters\\
+With $L$ derived using a Mosek solver on \eqref{eq:optimizationprob} in Matlab\textsuperscript{\tiny\textregistered}, the estimator is initialized with the following parameters:\\
 \begin{equation}
 \begin{split}
 \mathcal{W} = \langle 0, H_w\rangle,& \quad \mathcal{V} = \langle 0,H_v\rangle\\
-D_w = E\mathcal{W}, & \quad D_v = -LF\mathcal{V}\\
-S_x= \langle 0, H_0\rangle, &\quad S_w = \emptyset,\quad S_v = \emptyset
+\mathcal{D}_w = E\mathcal{W}, & \quad \mathcal{D}_v = -LF\mathcal{V}\\
+\mathcal{S}_x= \langle 0, H_0\rangle, &\quad \textbf{S}_w = \emptyset,\quad \textbf{S}_v = \emptyset
 \end{split}
 \end{equation}
 where $H_w = diag(\overline{w})$ and $H_v= diag(\overline{v})$
@@ -145,18 +145,20 @@ For every measurement, $y$, the estimator estimates using the Alg.~\ref{alg:h_in
         \textbf{Input} $y$\\
  		\textbf{Output} $\overline{x}$, $\underline{x}$
         \begin{algorithmic}[1]
-        \State $[\overline{e}, \underline{e}]$ $\gets$ \Call{interval}{$S_x$}$\bigoplus S_w \bigoplus S_v$ \label{alg:main_constraints}
+        \State $[\overline{e}, \underline{e}]$ $\gets$ \Call{interval}{$\mathcal{S}_x$}$\bigoplus \textbf{S}_w \bigoplus \textbf{S}_v$ \label{alg:main_constraints}
         \State $\overline{x}$ $\gets$ $\hat{x} + \overline{e}$
         \State $\underline{x}$ $\gets$ $\hat{x} + \underline{e}$
         \State $\hat{x}$ $\gets$ $A\hat{x} + L(y- C\hat{x})$ \label{alg:main_reac}
-        \State $S_x$ $\gets$ $(A-LC)S_x$
-        \State $S_w$ $\gets$ $S_w \bigoplus$ \Call{interval}{$D_w$}
-        \State $S_v$ $\gets$ $S_v \bigoplus$ \Call{interval}{$D_v$}
-        \State $D_w$ $\gets$ $(A-LC)D_w$
-        \State $D_v$ $\gets$ $(A-LC)D_v$
+        \State $\mathcal{S}_x$ $\gets$ $(A-LC)\mathcal{S}_x$
+        \State $\textbf{S}_w$ $\gets$ $\textbf{S}_w \bigoplus$ \Call{interval}{$\mathcal{D}_w$}
+        \State $\textbf{S}_v$ $\gets$ $\textbf{S}_v \bigoplus$ \Call{interval}{$\mathcal{D}_v$}
+        \State $\mathcal{D}_w$ $\gets$ $(A-LC)\mathcal{D}_w$
+        \State $\mathcal{D}_v$ $\gets$ $(A-LC)\mathcal{D}_v$
         \end{algorithmic}
         \label{alg:h_infinity}
 \end{algorithm}
+
+Interval observers have gained fame in control theory and can be used in stabilization, optimal control, fault detection and circuit systems \cite{Huang2019}.
 
 
 

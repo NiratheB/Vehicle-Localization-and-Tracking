@@ -21,7 +21,6 @@
 \usepackage[final]{microtype} % for \microtypesetup{protrusion=true}
 \usepackage[hidelinks, breaklinks = true]{hyperref} % hidelinks removes colored boxes around references and links, breaklinks allows linebreak in e.g. list of figures for long captions
 %\usepackage[toc,nonumberlist,acronym]{glossaries} % TODO: remove if glossary not needed
-
 % math
 \usepackage{amsmath}
 \usepackage{algorithm} %for algorithm environment
@@ -50,5 +49,18 @@
 \newtheorem{definition}{Definition}
 \newtheorem{lemma}{Property}
 
+%\newtheoremstyle{subdefinition}
+%  {0pt}       % ABOVESPACE
+%  {0pt}       % BELOWSPACE
+%  {\upshape}  % BODYFONT
+%  {0pt}       % INDENT (empty value is the same as 0pt)
+%  {\bfseries} % HEADFONT
+%  {.}         % HEADPUNCT
+%  {5pt plus 1pt minus 1pt} % HEADSPACE
+%  {}          % CUSTOM-HEAD-SPEC
+%\theoremstyle{subdefinition}
+\newtheorem{subdefinition}{Definition}[definition]
 
-
+\usepackage{color} 
+\usepackage{fancyvrb} 
+\usepackage[toc,page]{appendix}
