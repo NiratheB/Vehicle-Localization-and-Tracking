@@ -1,5 +1,5 @@
 classdef PRadius < handle
-    %SEGMENTMINIMIZER Implements the algorithm minimizing segment of
+    %PRADIUS Implements the algorithm minimizing segment of
     % intersecting zonotope
     
     properties
@@ -14,10 +14,10 @@ classdef PRadius < handle
     
     methods
         function obj = PRadius(model)
-            %SEGMENTMINIMIZER Construct an instance of this class
+            %http://texcatalogue.sarovar.org/entries/booktabs.html Construct an instance of this class
             %   Initialize variables
             obj.model = model;
-            initial = [1000;1000;10;10;10;10];
+            initial = model.initial;
             obj.x_zonotope = zonotope([zeros(model.dim_x,1),...
                 diag(initial(1:model.dim_x))]);
             obj.index = 1;
@@ -52,6 +52,23 @@ classdef PRadius < handle
             x_zonotope = zonotope([center, generators]);
             obj.x_zonotope = x_zonotope;
             x_interval = interval(obj.x_zonotope);
+            if obj.model.constraint >0
+                a_max_interval = interval(-1*obj.model.a_max(1), ...
+                obj.model.a_max(1));
+                try
+                    x_interval(5) = x_interval(5)& a_max_interval;
+                catch
+                     x_interval(5) = a_max_interval;
+                end
+                a_max_interval = interval(-1*obj.model.a_max(2), ...
+                obj.model.a_max(2));
+                try
+                    x_interval(6) = x_interval(6)& a_max_interval;
+                catch
+                    x_interval(6)= a_max_interval;
+                end
+                
+            end
             upper = supremum(x_interval);
             lower = infimum(x_interval);
             obj.x_zonotope = obj.x_zonotope.reduce('girard', 20);

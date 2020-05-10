@@ -12,6 +12,8 @@ classdef PointMassModel
         dim_x = 4;
         dim_y = 2;
         delT = 1;
+        a_max = [11.5;11.5];
+        constraint = 0;
     end
     
     methods
@@ -31,6 +33,8 @@ classdef PointMassModel
                 0 1 0 0];
             obj.W = [0.1; 0.1 ; 0.4;0.4];
             obj.V = [0.1; 0.1];
+            
+            obj.W = obj.W + obj.B*obj.a_max;
         end
     end
 end

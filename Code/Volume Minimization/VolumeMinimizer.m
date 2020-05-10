@@ -15,8 +15,9 @@ classdef VolumeMinimizer < handle
             %VOLUMEMINIMIZER Construct an instance of this class
             %   Initialize variables
             obj.model = model;
-            obj.x_zonotope = zonotope([zeros(obj.model.dim_x),...
-                eye(obj.model.dim_x)]);
+            initial = [1000;1000;10;10;10;10];
+            obj.x_zonotope = zonotope([zeros(model.dim_x,1),...
+                diag(initial(1:model.dim_x))]);
             obj.lambda = zeros(obj.model.dim_x,obj.model.dim_y);
             obj.W_zonotope =zonotope([zeros(model.dim_x,1), diag(model.W)]);
         end

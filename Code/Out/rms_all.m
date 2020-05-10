@@ -1,12 +1,11 @@
 % select folder
 % for vehicle in vehicles
 %   get_score from vehicle.z, infimum and supremum
-error = [];
-directory = 'Segment Minimizer/DR_CHN_Merging_ZS/*.mat';
+directory = 'Segment Minimizer/CVModel/DR_USA_Intersection_GL/*.mat';
 files = dir(directory);
 nfiles = length(files);
 vehicles = [];
-errors = [];
+sm_errors = [];
 for i=1:nfiles
     data = load(files(i).folder+"/"+files(i).name);
     vehicles = data.vehicles;
@@ -14,9 +13,10 @@ for i=1:nfiles
     
     for j=1:nvehicles
         error = calculate_error(vehicles(j));
-        errors = [errors error];
+        sm_errors = [sm_errors error];
     end
 end
+
 
 
 titles = ["X", "Y", "Velocity_x","Velocity_y","Acceleration_x",...
@@ -27,23 +27,8 @@ disp(vehicles(j).id);
 infimum_arr = vehicles(j).infimum_arr;
 supremum_arr = vehicles(j).supremum_arr;
 z_arr = vehicles(j).z_arr;
-endtime = (vehicles(j).curr_index -2)* 0.1;
+endtime = 10;
 t_arr =  0:0.1:endtime;
-for i = 1:6
-    figure(i);
-    plot(t_arr, infimum_arr(i,:), 'r');
-    hold on;
-    plot(t_arr, supremum_arr(i,:), 'g');
-    hold on;
-    if i<= 4
-        plot(t_arr, z_arr(i,:), 'b');
-        hold on;
-    end
-    xlabel('time(s)');
-    ylabel(titles(i));
-    %title( ax, titles(i));
-    
-end
 % index=1;
 % for i=sm.z_arr
 %     avg = sm.infimum_arr(:,index)+ sm.supremum_arr(:,index);

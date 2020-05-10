@@ -8,9 +8,11 @@ classdef CAModel
         C
         W
         V
+        initial
         dim_x = 6;
         dim_y = 2;
         delT = 0.1;
+        constraint =0;
     end
     
     methods
@@ -29,6 +31,7 @@ classdef CAModel
                 0 1 0 0 0 0];
             obj.W = [0.1; 0.1; 0.4; 0.4;0.1;0.1];
             obj.V = [0.1; 0.1];
+            obj.initial = [1000;1000;10;10;10;10];
         end
     end
 end

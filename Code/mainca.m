@@ -64,9 +64,10 @@ for i = 1:4
     plot(t_arr(1:50), sm_errors(i,1:50), 'k--', 'LineWidth', 2);
     hold on;
     plot(t_arr(1:50), pr_errors(i,1:50), 'k-', 'LineWidth', 2);
-    xlabel('Time (s)');
-    ylabel('Error in '+titles(i));
-    legend('Interval Estimation', 'Segment Minimization','P-Radius');
+    xlabel('Time (s)', 'FontSize', 10);
+    ylabel('Error in '+titles(i), 'FontSize', 10);
+    legends  =legend('Interval Estimation', 'Segment Minimization','P-Radius', 'Location','NorthOutside', 'Orientation', 'horizontal','Box','On');
+    
     %title( ax, titles(i));
     saveas(f,'errors'+titles(i)+'.eps', 'epsc');
 end

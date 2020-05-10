@@ -7,7 +7,8 @@ classdef Vehicle < handle
         infimum_arr = [];
         supremum_arr = [];
         z_arr = [];
-        estimator
+        estimator;
+        timer_arr;
     end
     
     methods
@@ -29,9 +30,10 @@ classdef Vehicle < handle
             %METHOD1 Summary of this method goes here
             %   Detailed explanation goes here
             obj.z_arr = [obj.z_arr measurement];
-            
+            tic;
             [upper, lower] = obj.estimator.estimate(measurement(range_select));
-            
+            endtime = toc;
+            obj.timer_arr = [obj.timer_arr endtime];
             obj.supremum_arr = [obj.supremum_arr upper];
             obj.infimum_arr = [obj.infimum_arr lower];
             obj.curr_index = obj.curr_index +1;

@@ -73,7 +73,7 @@ OGain = OGain1;
 %     OGain = zeros(ns,nh);
 %     P = zeros(ns,ns);
 % end
-Tsolve = toc;
+%Tsolve = toc;
 end
 
 %------------End of Code-----%

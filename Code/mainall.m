@@ -1,11 +1,11 @@
 % go to dir
-directory = 'Data/DR_CHN_Merging_ZS/*.csv';
-out_directory ='Out/DR_CHN_Merging_ZS/';
+directory = 'Data/DR_USA_Intersection_GL/*.csv';
+out_directory ='Out/DR_USA_Intersection_GL/';
 
 files = dir(directory);
 n = length(files);
 delT = 0.1;
-model = CAModel(delT);
+model = PointMassModel2(delT);
 
 selectRange = [1,2];
 for i = 1:n
