@@ -1,9 +1,13 @@
 %\appendix
-\chapter{Extended Result}
-\section{Set Estimation}\label{eresult:setest}
-Estimation using the techniques with different models are illustrated using data for one particular vehicle in the dataset in this chapter. Results show that the true state is always bounded by the set of estimation. For acceleration, there is no true measurement because the acceleration of the tracked vehicle is absent in the dataset.
+\chapter{Appendix}
 \FloatBarrier
-\subsection{Segment Minimization using F-Radius}
+\section{Extended Result}
+\FloatBarrier
+\subsection{Set Estimation}\label{eresult:setest}
+\FloatBarrier
+Estimation using the techniques with different models are illustrated using data for one particular vehicle in the dataset in this chapter. Results show that the true state is always bounded by the set of estimation. For acceleration, there is no true measurement because the acceleration of the tracked vehicle is absent in the dataset.
+
+\subsubsection{Segment Minimization using F-Radius}
 \FloatBarrier
 \begin{figure}[h]
 \includegraphics[scale=0.8]{figures/legend}\\\\
@@ -85,7 +89,7 @@ Estimation using the techniques with different models are illustrated using data
 \end{figure}
 
 \clearpage
-\subsection{Segment Minimization using P-Radius}
+\subsubsection{Segment Minimization using P-Radius}
 \FloatBarrier
 \begin{figure}[h]
 \includegraphics[scale=0.8]{figures/legend}\\\\
@@ -168,10 +172,10 @@ Estimation using the techniques with different models are illustrated using data
 
 
 \clearpage
-\subsection{Interval Observer using H-$\infty$}\label{eresult:hinf}
+\subsubsection{Interval Observer using H-$\infty$}\label{eresult:hinf}
 \FloatBarrier
-\begin{figure}[h]
-\includegraphics[scale=0.8]{figures/ratelegend}\\\\
+\begin{figure}[!h]
+\includegraphics[scale=0.8]{figures/legend}\\\\
 \begin{subfigure}{.5\linewidth}
 \centering
 \includegraphics[width=\linewidth]{figures/HInf/s3cvHInfX}
@@ -191,8 +195,8 @@ Estimation using the techniques with different models are illustrated using data
 \caption{Estimation using Constant Velocity}
 \end{figure}
 
-\begin{figure}[h]
-\includegraphics[scale=0.8]{figures/ratelegend}\\\\
+\begin{figure}[!h]
+\includegraphics[scale=0.8]{figures/legend}\\\\
 \begin{subfigure}{.5\linewidth}
 \centering
 \includegraphics[width=\linewidth]{figures/HInf/s3caHInfX}
@@ -220,10 +224,8 @@ Estimation using the techniques with different models are illustrated using data
 \caption{Estimation using Constant Acceleration}
 \end{figure}
 
-
-
-\begin{figure}[h]
-\includegraphics[scale=0.8]{figures/ratelegend}\\\\
+\begin{figure}[!h]
+\includegraphics[scale=0.8]{figures/legend}\\\\
 \begin{subfigure}{.5\linewidth}
 \centering
 \includegraphics[width=\linewidth]{figures/HInf/s3pmHInfX}
@@ -251,9 +253,9 @@ Estimation using the techniques with different models are illustrated using data
 \caption{Estimation using Point Mass Model}
 \end{figure}
 
-\section{Rate of Change of Bounds}\label{eresult:rate}
-
-\begin{figure}[h]
+\subsection{Rate of Change of Bounds}\label{eresult:rate}
+\FloatBarrier
+\begin{figure}[!h]
 \includegraphics[scale=0.8]{figures/ratelegend}\\\\
 \begin{subfigure}{.5\linewidth}
 \centering
@@ -274,8 +276,7 @@ Estimation using the techniques with different models are illustrated using data
 \caption{Rate of change of bounds using Constant Velocity Model}
 \end{figure}
 
-
-\begin{figure}[h]
+\begin{figure}[!h]
 \includegraphics[scale=0.8]{figures/ratelegend}\\\\
 \begin{subfigure}{.5\linewidth}
 \centering
@@ -304,37 +305,6 @@ Estimation using the techniques with different models are illustrated using data
 \caption{Rate of change of bounds using Constant Acceleration Model}
 \end{figure}
 
-%\subsection{Singer Acceleration Model}
-%\FloatBarrier
-%\begin{figure}[h]
-%\begin{subfigure}{.5\linewidth}
-%\centering
-%\includegraphics[width=\linewidth]{figures/BoundChange/CS/cs_bound_changeX}
-%\end{subfigure}
-%\begin{subfigure}{.5\linewidth}
-%\centering
-%\includegraphics[width=\linewidth]{figures/BoundChange/CS/cs_bound_changeY}
-%\end{subfigure}
-%\begin{subfigure}{.5\linewidth}
-%\centering
-%\includegraphics[width=.9\linewidth]{figures/BoundChange/CS/cs_bound_changeVelocity_x}
-%\end{subfigure}
-%\begin{subfigure}{.5\linewidth}
-%\centering
-%\includegraphics[width=.9\linewidth]{figures/BoundChange/CS/cs_bound_changeVelocity_y}
-%\end{subfigure}
-%\begin{subfigure}{.5\linewidth}
-%\centering
-%\includegraphics[width=.9\linewidth]{figures/BoundChange/CS/cs_bound_changeAcceleration_x}
-%\end{subfigure}
-%\begin{subfigure}{.5\linewidth}
-%\centering
-%\includegraphics[width=.9\linewidth]{figures/BoundChange/CS/cs_bound_changeAcceleration_y}
-%\end{subfigure}
-%\caption{Rate of change of bounds using Singer Acceleration Model}
-%\end{figure}
-
-\FloatBarrier
 \begin{figure}[!h]
 \includegraphics[scale=0.8]{figures/ratelegend}\\\\
 \begin{subfigure}{.5\linewidth}
@@ -363,11 +333,11 @@ Estimation using the techniques with different models are illustrated using data
 \end{subfigure}
 \caption{Rate of change of bounds using Point-Mass Model}
 \end{figure}
-\clearpage
+\pagebreak
 \section{Template Code}
 \subsection{Template for Model}
 \input{code/Model}
-\clearpage
+\pagebreak
 \subsection{Template for Estimator}
 \input{code/Estimator}
 %\end{appendices}

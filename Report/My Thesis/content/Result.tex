@@ -26,7 +26,7 @@ All the evaluation are carried out by single-threaded scripts run on an Intel(R)
 \caption{Computation time for each method to estimate using the CV model}
 \label{fig:timegraph}
 \end{figure}
-Fig.~\ref{fig:timegraph} illustrates that the computation time for volume minimization rises exponentially over time. Due to the choice of limiting zonotoper order to $m\leq20$, the time for volume computation is expected to steeply rise till the $16^{th}$ frame for cv model. As seen from the figure, the computation time has reached 16,000\% of the time step. Such outcome makes volume minimization futile for a collision avoidance system; hence this method is avoided in the rest of the paper.
+Fig.~\ref{fig:timegraph} illustrates that the computation time for volume minimization rises exponentially over time. Due to the choice of limiting zonotope order to $m\leq20$, the time for volume computation is expected to steeply rise till the $16^{th}$ frame for the cv model. As seen from the figure, the computation time has reached 16,000\% of the time step. Such an outcome makes volume minimization futile for a collision avoidance system; hence this method is avoided in the rest of the paper.
 
 \begin{table}[!h]
 \caption{Comparison of computation time (ms)\\}
@@ -46,9 +46,9 @@ Fig.~\ref{fig:timegraph} illustrates that the computation time for volume minimi
 	\end{tabular}
 	\label{tab:comptime}
 \end{table}
-Tab. \ref{tab:comptime} shows that the computation time for the other methods are negligible compared to the frame rate, i.e 100ms. Furthermore, the H-$\infty$-based interval observer has almost half the time taken by the segment intersection methods, which can be explained by the absence of zonotope reduction operation in the former method. 
+Tab. \ref{tab:comptime} shows that the computation time for the other methods is negligible compared to the frame rate, i.e 100ms. Furthermore, the H-$\infty$-based interval observer has almost half the time taken by the segment intersection methods, which can be explained by the absence of zonotope reduction operation in the former method. 
 
-In addition, Tab.~\ref{tab:comptime} highlights how the choice of vehicle model affects the performance. The H-$\infty$-based observer is not much affected by models, whereas, the segment minimization methods have significant decline in performance with point-mass model. This observation can be explained by how the constraints in point-mass model are applied. In segment minimization methods, the point-mass model applies constraints on the zonotope for the state, whereas, the H-$\infty$-based observer only constraints the upper and lower bound. 
+In addition, Tab.~\ref{tab:comptime} highlights how the choice of vehicle model affects the performance. The H-$\infty$-based observer is not much affected by models, whereas, the segment minimization methods have a significant decline in performance with the point-mass model. This observation can be explained by how the constraints in the point-mass model are applied. In segment minimization methods, the point-mass model applies constraints on the zonotope for the state, whereas, the H-$\infty$-based observer only constraints the upper and lower bound. 
 
 \section{Time to Converge}
 \begin{table}[!h]
@@ -70,9 +70,9 @@ In addition, Tab.~\ref{tab:comptime} highlights how the choice of vehicle model 
 	\end{tabular}
 	\label{tab:convtime}
 \end{table}
-The time to converge is an important performance metric, but is difficult to measure. For this paper, it is calculated as the time taken for the rate of change of estimated bounds to approach zero. Tab.~\ref{tab:convtime} shows the approximate time for $velocity_x$ and $acceleration_x$ estimates to converge. It is trivial to note that the P-radius technique demonstrates the worst performance, which can be explained by its fixed pre-computed parameter for intersected segment. In contrast, the F-radius technique, which adjusts the aforementioned parameter in run-time for every measurement, performs the best, taking only 2 time steps to converge both velocity and acceleration.
+The time to converge is an important performance metric but is difficult to measure. For this paper, it is calculated as the time taken for the rate of change of estimated bounds to approach zero. Tab.~\ref{tab:convtime} shows the approximate time for $velocity_x$ and $acceleration_x$ estimates to converge. It is trivial to note that the P-radius technique demonstrates the worst performance, which can be explained by its fixed pre-computed parameter for the intersected segment. In contrast, the F-radius technique, which adjusts the aforementioned parameter in run-time for every measurement, performs the best, taking at most six time steps (compared to fifty time steps for P-radius minimizer) to converge both velocity and acceleration. An exception appears in the pm model, which can be explained by the disturbance in model linearity due to its constraint in acceleration. 
 
-One interesting observation is how the point-mass model significantly delays the time to converge for all the techniques. This observation can be the result of the acceleration constraint in the pm model that changes the behaviour of the linear system of the vehicle from the expectation. An extended result of the rate of change of bounds of all the variables over time is available in the Appendix~\ref{eresult:rate}. 
+In general, the point-mass model delays the time to converge. Interestingly, the H-$\infty$-based observer exhibit a rather consistent time to converge, even for an increase in state dimension (e.g. ca model) or new constraints (e.g. pm model). This behavior makes H-$\infty$-based observer apt for complex models. An extended result of the rate of change of bounds of all the variables over time is available in the Appendix~\ref{eresult:rate}. 
 
 \section{Bounds}
 \begin{figure}[h]
@@ -123,13 +123,13 @@ One interesting observation is how the point-mass model significantly delays the
 	\end{tabular}
 	\label{tab:bound}
 \end{table}
-As seen from Fig.~\ref{fig:bound}, all methods enclose the true state in the mentioned setup for a chosen participant in the dataset. Estimation for all combinations of model and algorithm is presented in Appendix~\ref{eresult:setest}. 
-Tab. \ref{tab:bound} tabulates the average bounds for all the vehicles in the scenario. Bounds using constant velocity model is tighter compared to constant acceleration and point-mass model. This is an indication that better results are obtained for model with fewer unmeasured state. Bounds from constant acceleration and point-mass are identical in all variables, except the acceleration where point-mass performs better. As expected, F-radius has better bounds for the unmeasured states. 
+As seen in Fig.~\ref{fig:bound}, all methods enclose the true state in the mentioned setup for a chosen participant in the dataset. Estimation for all combinations of model and algorithm is presented in Appendix~\ref{eresult:setest}. 
+Tab. \ref{tab:bound} tabulates the average bounds for all the vehicles in the scenario. Bounds using constant velocity model is tighter compared to constant acceleration and point-mass model. This is an indication that better results are obtained for a model with fewer unmeasured states. Bounds from constant acceleration and point-mass are identical in all variables, except the acceleration where point-mass performs better. As expected, F-radius has better bounds for the unmeasured states. 
 
-As point-mass model provides estimation for both velocity and acceleration, and outperforms constant acceleration model, this model is selected to compare the techniques in the next section. To see how the bounds enclose each state, refer to appendix.
+As the point-mass model provides estimation for both velocity and acceleration, and outperforms constant acceleration model, this model is selected to compare the techniques in the next section. To see how the bounds enclose each state, refer to the appendix.
 
 \section{Accuracy}
-Accuracy is represented by the root mean square error (RMSE) of the estimation from the true state of the system. Since, the dataset does not have the measurement for acceleration, the accuracy of acceleration cannot be evaluated.
+Accuracy is compared using the root mean square error (RMSE) of the estimation from the true state of the system. Since, the dataset does not have the measurement for acceleration, the accuracy of acceleration cannot be evaluated.
 
 The initial estimation before convergence gives an extreme error which affects the result, hence the estimations after convergence (i.e. after 50 time-steps) are allowed in the evaluation. The RMSE is then computed as a percentage from the maximum measurement in the time frame.
 
@@ -164,9 +164,9 @@ The boxplot of RMSE for $velocity_x$ using the point-mass model for all the tech
 \end{table}
 
 \section{Discussion}
-The results in the previous sections prove that the output of the techniques depend heavily on the vehicle model used. In this section, we try to choose an estimator and a model, best suited to the collision avoidance system. 
+The results in the previous sections show that every estimator has pros and cons. Besides, the output of the techniques depends heavily on the vehicle model used. In this section, we try to choose an estimator and a model, best suited to the collision avoidance system. 
 
-Firstly, from the presented models, the point-mass model is the most accurate model for tracked vehicles, because it gives better estimates for acceleration. Secondly, choosing the algorithm is tricky. It seems that every algorithm has pros and cons. Comparing the estimators, the volume minimizer lost in computation time, whereas the P-radius minimizer gave terrible bounds. In contrast, the H-$\infty$-based observer computes the fastest, and F-radius minimizer gave the tightest bounds with fewer measurements.The F-radius minimizer does not depend on initial estimate. However, computation time for F-radius rises with the dimension of the state. Moreover, adding constraints in F-radius also increases computation time. Although, the computation time in \ref{tab:comptime} for F-radius does not seem much compared to the time step, the load will grow proportionally to the number of vehicles. In contrast, the H-$\infty$-based interval observer not only takes smallest time, but also does not change with the increase in state dimension. Furthermore, it gives lower range of error in estimation. However, one challenge with the H-$\infty$-based interval observer is to initialize the estimated state appropriately to ensure true state enclosure. This can be done in collision avoidance system by adding the location of the ego vehicle and the maximum radius of the sensors. In conclusion, the H-$\infty$-based interval observer with pm model is the best choice for collision avoidance system. 
+Firstly, from the presented models, the point-mass model is the most accurate model for tracked vehicles, because it gives better estimates for acceleration. Secondly, comparing the estimators, the volume minimizer lost in computation time, whereas the P-radius minimizer gave terrible bounds. In contrast, the H-$\infty$-based observer computes the fastest, and the F-radius minimizer gave the tightest bounds with fewer measurements. The F-radius minimizer does not depend on the initial estimate. However, the computation time for F-radius rises with the dimension of the state. Moreover, adding constraints in F-radius also increases computation time. Although the computation time in Tab.~\ref{tab:comptime} for F-radius does not seem much in comparison to the time step (0.1s), the load would grow with the number of vehicles. In contrast, the H-$\infty$-based interval observer not only takes the shortest time, but also does not change with the increase in state dimension. Furthermore, it gives a lower range of error in estimation. However, one challenge with the H-$\infty$-based interval observer is to initialize the estimated state appropriately to ensure true state enclosure. This can be done in the collision avoidance system by adding the location of the ego vehicle and the maximum radius of the sensors. In conclusion, the H-$\infty$-based interval observer with pm model is the best choice for a collision avoidance system. 
 
 %Time comparison for each method for n vehicles is shown in figure [cite]
 %
