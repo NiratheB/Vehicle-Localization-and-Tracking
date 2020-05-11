@@ -1,13 +1,11 @@
-%\appendix
-\chapter{Appendix}
+
+\chapter{Extended Result}
 \FloatBarrier
-\section{Extended Result}
-\FloatBarrier
-\subsection{Set Estimation}\label{eresult:setest}
+\section{Set Estimation}\label{eresult:setest}
 \FloatBarrier
 Estimation using the techniques with different models are illustrated using data for one particular vehicle in the dataset in this chapter. Results show that the true state is always bounded by the set of estimation. For acceleration, there is no true measurement because the acceleration of the tracked vehicle is absent in the dataset.
 
-\subsubsection{Segment Minimization using F-Radius}
+\subsection{Segment Minimization using F-Radius}
 \FloatBarrier
 \begin{figure}[h]
 \hspace*{\fill} \includegraphics[scale=0.8]{figures/legend}\\\\
@@ -27,7 +25,7 @@ Estimation using the techniques with different models are illustrated using data
 \centering
 \includegraphics[width=\linewidth]{figures/Frad/s3cvSMVelocity_y}
 \end{subfigure}
-\caption{Estimation using Constant Velocity}
+\caption{Estimation using the F-radius and the constant velocity model}
 \end{figure}
 
 \begin{figure}[h]
@@ -56,7 +54,7 @@ Estimation using the techniques with different models are illustrated using data
 \centering
 \includegraphics[width=\linewidth]{figures/Frad/s3caSMAcceleration_y}
 \end{subfigure}
-\caption{Estimation using Constant Acceleration}
+\caption{Estimation using the F-radius and the constant acceleration model}
 \end{figure}
 
 \begin{figure}[h]
@@ -85,11 +83,11 @@ Estimation using the techniques with different models are illustrated using data
 \centering
 \includegraphics[width=\linewidth]{figures/Frad/s3pmSMAcceleration_y}
 \end{subfigure}
-\caption{Estimation using Point Mass Model}
+\caption{Estimation using the F-radius and the point-mass model}
 \end{figure}
 
 \clearpage
-\subsubsection{Segment Minimization using P-Radius}
+\subsection{Segment Minimization using P-Radius}
 \FloatBarrier
 \begin{figure}[h]
 \hspace*{\fill} \includegraphics[scale=0.8]{figures/legend}\\\\
@@ -109,7 +107,7 @@ Estimation using the techniques with different models are illustrated using data
 \centering
 \includegraphics[width=\linewidth]{figures/Prad/s3cvpradVelocity_y}
 \end{subfigure}
-\caption{Estimation using Constant Velocity}
+\caption{Estimation using the P-radius and the constant velocity model}
 \end{figure}
 
 \begin{figure}[h]
@@ -138,7 +136,7 @@ Estimation using the techniques with different models are illustrated using data
 \centering
 \includegraphics[width=\linewidth]{figures/Prad/s3capradAcceleration_y}
 \end{subfigure}
-\caption{Estimation using Constant Acceleration}
+\caption{Estimation using the P-radius and the constant acceleration model}
 \end{figure}
 
 \begin{figure}[h]
@@ -167,12 +165,12 @@ Estimation using the techniques with different models are illustrated using data
 \centering
 \includegraphics[width=\linewidth]{figures/Prad/s3pmpradAcceleration_y}
 \end{subfigure}
-\caption{Estimation using Point Mass Model}
+\caption{Estimation using the P-radius and the point-mass model}
 \end{figure}
 
 
 \clearpage
-\subsubsection{Interval Observer using H-$\infty$}\label{eresult:hinf}
+\subsection{Interval Observer using H-$\infty$}\label{eresult:hinf}
 \FloatBarrier
 \begin{figure}[!h]
 \hspace*{\fill} \includegraphics[scale=0.8]{figures/legend}\\\\
@@ -192,7 +190,7 @@ Estimation using the techniques with different models are illustrated using data
 \centering
 \includegraphics[width=\linewidth]{figures/HInf/s3cvHInfVelocity_y}
 \end{subfigure}
-\caption{Estimation using Constant Velocity}
+\caption{Estimation using H-$\infty$ observer and the constant velocity model}
 \end{figure}
 
 \begin{figure}[!h]
@@ -221,7 +219,7 @@ Estimation using the techniques with different models are illustrated using data
 \centering
 \includegraphics[width=\linewidth]{figures/HInf/s3caHInfAcceleration_y}
 \end{subfigure}
-\caption{Estimation using Constant Acceleration}
+\caption{Estimation using H-$\infty$ observer and the constant acceleration model}
 \end{figure}
 
 \begin{figure}[!h]
@@ -250,11 +248,11 @@ Estimation using the techniques with different models are illustrated using data
 \centering
 \includegraphics[width=\linewidth]{figures/HInf/s3pmHInfAcceleration_y}
 \end{subfigure}
-\caption{Estimation using Point Mass Model}
+\caption{Estimation using H-$\infty$ observer and the point mass model}
 \end{figure}
 
 \FloatBarrier
-\subsection{Rate of Change of Bounds}\label{eresult:rate}
+\section{Rate of Change of Bounds}\label{eresult:rate}
 \begin{figure}[!h]
 \hspace*{\fill} \includegraphics[scale=0.8]{figures/ratelegend}\\\\
 \begin{subfigure}{.5\linewidth}
@@ -273,7 +271,7 @@ Estimation using the techniques with different models are illustrated using data
 \centering
 \includegraphics[width=\linewidth]{figures/BoundChange/CV/cv_bound_changeVelocity_y}
 \end{subfigure}
-\caption{Rate of change of bounds using Constant Velocity Model}
+\caption{Rate of change of bounds using the constant velocity model}
 \end{figure}
 
 \begin{figure}[!h]
@@ -302,7 +300,7 @@ Estimation using the techniques with different models are illustrated using data
 \centering
 \includegraphics[width=\linewidth]{figures/BoundChange/CA/ca_bound_changeAcceleration_y}
 \end{subfigure}
-\caption{Rate of change of bounds using Constant Acceleration Model}
+\caption{Rate of change of bounds using the constant acceleration model}
 \end{figure}
 
 \begin{figure}[!h]
@@ -331,13 +329,6 @@ Estimation using the techniques with different models are illustrated using data
 \centering
 \includegraphics[width=\linewidth]{figures/BoundChange/PM/pm_bound_changeAcceleration_y}
 \end{subfigure}
-\caption{Rate of change of bounds using Point-Mass Model}
+\caption{Rate of change of bounds using the point-mass model}
 \end{figure}
 \pagebreak
-\section{Template Code}\label{app:code}
-\subsection{Template for Model}
-\input{code/Model}
-\pagebreak
-\subsection{Template for Estimator}
-\input{code/Estimator}
-%\end{appendices}

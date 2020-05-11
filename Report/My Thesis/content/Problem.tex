@@ -76,7 +76,7 @@ and $H(\lambda) = [(I - \lambda c)H \quad \phi \lambda]$
 \includegraphics[scale=1, width=\linewidth]{figures/zonotope}
 \caption{An illustration of a zonotope and its interval hull in 2-D}
 \end{figure}
-The construction, reduction, and interval calculation of zonotopes are implemented in the Matlab\textsuperscript{\tiny\textregistered} toolbox CORA (COntinuous Reachability Analyzer) \cite{Althoff2018}.
+The construction, reduction, and interval calculation of zonotopes are already implemented in the Matlab\textsuperscript{\tiny\textregistered} toolbox CORA (COntinuous Reachability Analyzer) \cite{Althoff2018}.
 \section{Problem Formulation}
 Let us denote the state of the vehicle to be tracked at time $k$ as $x_k$ and the measured state as $y_k$. Eq.~\eqref{formula:system} formuates a multi-output discrete-time linear system for the tracked vehicle, where $A, E \in \mathcal{R} ^{n_x \times n_x}$, $C \in \mathcal{R} ^{n_y \times n_x}$, and $F \in \mathcal{R} ^{n_y \times n_y}$ are matrices defined by the vehicle system model; $w_k$ and $v_k$ are process noise and measurement noise at time $k$, respectively. 
 \begin{equation}
