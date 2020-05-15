@@ -46,4 +46,4 @@ plot(t_arr(9:15),hinf.timer(9:15),'Color',loyalgreen);
 set(gcf, 'Position', get(0, 'Screensize'));
 
 %Save figure
-saveas(f,'timegraphh.eps', 'epsc');
+saveas(f,'timegraph.eps', 'epsc');

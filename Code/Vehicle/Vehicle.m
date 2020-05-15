@@ -13,8 +13,8 @@ classdef Vehicle < handle
     
     methods
         function obj = Vehicle(id)
-            %VEHICLE Construct an instance of this class
-            %   Detailed explanation goes here
+            %VEHICLE Construct a vehicle with relevant data
+            %   initialize the arrays
             obj.id = id;
             obj.infimum_arr = [];
             obj.supremum_arr = [];
@@ -23,15 +23,16 @@ classdef Vehicle < handle
         end
         
         function add_estimator(obj,estimator)
+            % add_estimator add the estimator for the vehicle
             obj.estimator = estimator;
         end
         
         function add_measurement(obj,measurement, range_select)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
+            %add_measuremen add the measurement to the array
+            % and find an estimate
             obj.z_arr = [obj.z_arr measurement];
             tic;
-            [upper, lower] = obj.estimator.estimate(measurement(range_select));
+            [lower, upper] = obj.estimator.estimate(measurement(range_select));
             endtime = toc;
             obj.timer_arr = [obj.timer_arr endtime];
             obj.supremum_arr = [obj.supremum_arr upper];
