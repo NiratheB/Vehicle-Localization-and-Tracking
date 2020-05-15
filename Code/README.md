@@ -33,8 +33,3 @@
 		- See a plot of how bound changes with estimator and model using Bounds/changebound.m
 	* Accuracy
 		- See a box plot of RMSE(Root Mean Square Error) of the average estimation from true value with Accuracy/boxplot_all.m
-
-
-
-
-		
