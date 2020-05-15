@@ -1,6 +1,6 @@
 classdef Estimator < handle
     %ESTIMATOR Estimator template
-    %   
+    %   model: model to represent vehicle dynamics
     
     properties
         model
@@ -22,14 +22,14 @@ classdef Estimator < handle
             % implement initial computation 
         end
         
-        function [x_upper, x_lower] = estimate(obj, z)
+        function [x_lower, x_upper] = estimate(obj, y)
             %ESTIMATE estimate from the measurement
             
-            % implement estimator algorithm on measurement, z
+            % implement estimator algorithm on measurement, y
             
             % return bounds
-            x_upper = 0;
             x_lower = 0;
+            x_upper = 0;
         end
         
     end

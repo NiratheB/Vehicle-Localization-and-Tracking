@@ -1,7 +1,6 @@
 classdef Model
     %MODEL Model Template
-    %   dim_x: estimate dimension
-    %   dim_y: measurement dimension
+    %   delT: time step
     
     properties
         A
@@ -9,8 +8,8 @@ classdef Model
         W
         V
         initial
-        dim_x;
-        dim_;
+        dim_x; % estimate dimension
+        dim_y; % measurement dimension
         delT = 0.1;
     end
     
@@ -18,7 +17,7 @@ classdef Model
         function obj = Model(delT)
             %MODEL Construct an instance of this class
             %   Initializes the model variables
-            obj.delT = delT; % add the time step
+            obj.delT = delT;
             
             % Assign parameters here
         end

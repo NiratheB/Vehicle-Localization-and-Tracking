@@ -33,16 +33,17 @@ for method = methods %DR_USA_Intersection_G
     end
 
     bounds(:,:,index) = bounds(:,:,index)./count;
+    disp(count);
     index = index+1;
 end
 loyalgreen = 1/255*[128,255,0];
-titles = ["X", "Y", "Velocity_x","Velocity_y","Acceleration_x",...
-    "Acceleration_y"];
+titles = ["s_x", "s_y", "v_x","v_y","a_x",...
+    "a_y"];
 %tiledlayout(model.dim_x,1);
 fontSize= 50;
-lineWidth = 2;
+lineWidth = 5;
 set(0,'defaultAxesFontSize',fontSize);
-set(0, 'DefaultLineLineWidth', 2);
+set(0, 'DefaultLineLineWidth', lineWidth);
 for i = 1:6
     f =figure(i);
     plot(t_arr(1:len-1),diff(bounds(i,:,1))./0.1, 'm');
@@ -50,7 +51,7 @@ for i = 1:6
     plot(t_arr(1:len-1), diff(bounds(i,:,2))./0.1, 'c');
     hold on;
     plot(t_arr(1:len-1),diff(bounds(i,:,3))./0.1, 'Color', loyalgreen);
-    xlabel('Time(s)');
+    xlabel('time(s)');
     ylabel(titles(i));
     ylim([-10 10]);
     %legend('F-Radius', 'P-Radius','H-inf', 'Location', 'NorthOutside', 'Orientation', 'horizontal');

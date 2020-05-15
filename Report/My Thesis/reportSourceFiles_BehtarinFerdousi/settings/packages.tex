@@ -1,0 +1,69 @@
+\PassOptionsToPackage{table,svgnames,dvipsnames}{xcolor}
+
+% general/language
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[sc]{mathpazo}
+\usepackage[american]{babel}
+\usepackage[autostyle]{csquotes}
+\usepackage{subcaption}
+\usepackage[%
+  backend=bibtex,
+  url=false,
+  doi=false,
+  style=numeric,
+  giveninits,
+  sorting=none,
+  maxnames=10
+]{biblatex}
+\usepackage{color}
+\usepackage{booktabs} % for rulers in tables
+\usepackage[final]{microtype} % for \microtypesetup{protrusion=true}
+\usepackage[hidelinks, breaklinks = true]{hyperref} % hidelinks removes colored boxes around references and links, breaklinks allows linebreak in e.g. list of figures for long captions
+%\usepackage[toc,nonumberlist,acronym]{glossaries} % TODO: remove if glossary not needed
+% math
+\usepackage{amsmath}
+\usepackage{algorithm} %for algorithm environment
+\usepackage{algpseudocode} %for algorithm environment
+\usepackage{units} % for units
+%\usepackage{scrhack} % necessary for listings package
+%\usepackage{listings}
+\usepackage{mathrsfs}
+
+% graphics
+\usepackage{graphicx}
+\usepackage{psfrag}
+%\usepackage{epstopdf}
+%\usepackage{tikz}
+%\usepackage{pgfplots}
+%\usepackage{pgfplotstable}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\usepackage[section]{placeins}
+
+\usepackage{textcomp}
+
+
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Property}
+
+%\newtheoremstyle{subdefinition}
+%  {0pt}       % ABOVESPACE
+%  {0pt}       % BELOWSPACE
+%  {\upshape}  % BODYFONT
+%  {0pt}       % INDENT (empty value is the same as 0pt)
+%  {\bfseries} % HEADFONT
+%  {.}         % HEADPUNCT
+%  {5pt plus 1pt minus 1pt} % HEADSPACE
+%  {}          % CUSTOM-HEAD-SPEC
+%\theoremstyle{subdefinition}
+\newtheorem{subdefinition}{Definition}[definition]
+
+\usepackage{color} 
+\usepackage{fancyvrb} 
+\usepackage[toc,page]{appendix}
+
+\usepackage{caption}
+\captionsetup{labelsep=period}

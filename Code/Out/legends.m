@@ -1,4 +1,4 @@
-fontSize = 8;
+fontSize = 11;
 set(gcf, 'DefaultAxesFontSize', fontSize);
 f=figure(1);
 subplot(1,1,1)

@@ -5,7 +5,10 @@ methods = ["Segment Minimizer", "PRadius", "Hinf"]; %DR_USA_Intersection_GL
 errors = [];
 errors_all =[];
 index =1;
-fontsize = 18;
+fontSize = 36;
+lineWidth = 2;
+set(0,'defaultAxesFontSize',fontSize);
+set(0, 'DefaultLineLineWidth', lineWidth);
 for method= methods
     errors = [];
     directory ='../'+ method+'/PMModel/*.mat';
@@ -34,8 +37,8 @@ end
 
 
 
-titles = ["X", "Y", "Velocity_x","Velocity_y","Acceleration_x",...
-    "Acceleration_y"];
+titles = ["s_x", "s_y", "v_x","v_y","a_x",...
+    "a_y"];
 %tiledlayout(model.dim_x,1);
 j = 1;
 disp(vehicles(j).id);
@@ -45,11 +48,10 @@ z_arr = vehicles(j).z_arr;
 endtime = 10;
 t_arr =  0:0.1:endtime;
 h = figure;
-set(h, 'DefaultTextFontSize', fontsize);
 box_error = [transpose(errors_all(3,:,1)) transpose(errors_all(3,:,2))...
     transpose(errors_all(3,:,3))];
 boxplot(box_error, ["F-Radius","P-Radius", "H-inf"]);
-ylabel("RMSE in Velocity_x");
+ylabel("RMSE in v_x");
 
 
 means = [];

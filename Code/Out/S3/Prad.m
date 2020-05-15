@@ -4,10 +4,12 @@ infimum_arr = data.prad_infimum_arr;
 supremum_arr = data.prad_supremum_arr;
 z_arr = data.z_arr;
 fontSize = 50;
-titles = ["X", "Y", "Velocity_x","Velocity_y","Acceleration_x",...
-    "Acceleration_y"];
+lineWidth = 5;
+titles = ["s_x", "s_y", "v_x","v_y","a_x",...
+    "a_y"];
 fig_index = 1;
 set(0,'defaultAxesFontSize',fontSize);
+set(0, 'DefaultLineLineWidth', lineWidth);
 for i=1:6
     f = figure(fig_index);
     fig_index = fig_index+ 1;
@@ -18,7 +20,7 @@ for i=1:6
     if(i<5)
         plot(t_arr, z_arr(i,:), 'g');
     end
-    xlabel('Time(s)');
+    xlabel('time(s)');
     ylabel(titles(i));
 %     if i== 1
 %         legend('Lower Bound', 'Upper Bound','True Value', 'Location', 'NorthOutside', 'Orientation', 'horizontal');
@@ -59,7 +61,7 @@ for i=1:6
     if(i<5)
         plot(t_arr, z_arr(i,:), 'g');
     end
-    xlabel('Time(s)', 'FontSize', fontSize);
+    xlabel('time(s)', 'FontSize', fontSize);
     ylabel(titles(i), 'FontSize', fontSize);
 %     if i== 1
 %         legend('Lower Bound', 'Upper Bound','True Value', 'Location', 'NorthOutside', 'Orientation', 'horizontal');
@@ -100,7 +102,7 @@ for i=1:4
     if(i<5)
         plot(t_arr, z_arr(i,:), 'g');
     end
-    xlabel('Time(s)', 'FontSize', fontSize);
+    xlabel('time(s)', 'FontSize', fontSize);
     ylabel(titles(i), 'FontSize', fontSize);
 %     if i== 1
 %         legend('Lower Bound', 'Upper Bound','True Value', 'Location', 'NorthOutside', 'Orientation', 'horizontal');

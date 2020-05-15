@@ -4,6 +4,7 @@ infimum_arr = data.sm_infimum_arr;
 supremum_arr = data.sm_supremum_arr;
 z_arr = data.z_arr;
 fontSize = 50;
+lineWidth = 5;
 titles = ["X", "Y", "Velocity_x","Velocity_y","Acceleration_x",...
     "Acceleration_y"];
 fig_index = 1;

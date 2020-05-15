@@ -19,8 +19,10 @@ hinf = load('hinfs3_va_16.mat');
 % end
 
 fontsize =24;
+lineWidth =5;
 set(gcf, 'DefaultAxesFontSize', fontsize);
 set(gcf, 'Position', get(0, 'Screensize'));
+set(0, 'DefaultLineLineWidth', lineWidth);
 f= figure(1);
 orange = 1/255*[255,128,0];
 loyalgreen = 1/255*[128,255,0];
@@ -46,5 +48,5 @@ plot(t_arr(9:15), prad.timer(9:15),'c');
 hold on;
 plot(t_arr(9:15),hinf.timer(9:15),'Color',loyalgreen);
 
-
+set(gcf, 'Position', get(0, 'Screensize'));
 saveas(f,'timegraphh.eps', 'epsc');
