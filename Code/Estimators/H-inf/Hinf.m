@@ -41,7 +41,7 @@ classdef Hinf < handle
             obj.gain_factor = obj.model.A- (obj.L*obj.model.C);
         end
         
-        function [x_upper, x_lower] = estimate(obj,z)
+        function [x_lower, x_upper] = estimate(obj,z)
             %ESTIMATE estimate from the measurement
             
             error_bounds = interval(obj.S_x) +obj.S_w+ obj.S_v;

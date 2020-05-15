@@ -33,7 +33,7 @@ classdef Vol < handle
             lambda = fmincon(func, initial);
         end
         
-        function [upper, lower]=estimate(obj, measurement)
+        function [lower, upper] =estimate(obj, measurement)
             obj.x_zonotope = (obj.model.A* obj.x_zonotope) + obj.W_zonotope;
             obj.lambda = obj.calculate_lambda(measurement);
             center = obj.x_zonotope.center + ...

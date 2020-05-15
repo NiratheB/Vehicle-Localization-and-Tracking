@@ -39,7 +39,7 @@ classdef Prad < handle
             disp(obj.lambda);
         end
         
-        function [upper, lower]=estimate(obj, measurement)
+        function [lower, upper] =estimate(obj, measurement)
             C_t = transpose(obj.model.C);
             x_zonotope = (obj.model.A* obj.x_zonotope) + obj.W_zonotope;
             

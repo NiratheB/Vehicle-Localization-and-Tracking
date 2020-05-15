@@ -23,7 +23,7 @@ while ~feof(fileID)
     % read measurement
     measurement = fscanf(fileID, formatSpec, sizeIn);
     z = transpose(measurement);
-    [upper,lower] = estimator.estimate(z([1,2]));
+    [lower,upper] = estimator.estimate(z([1,2]));
     infimum_arr = [infimum_arr lower];
     supremum_arr = [supremum_arr  upper];
     z_arr = [z_arr [z(1:4);0;0]];
