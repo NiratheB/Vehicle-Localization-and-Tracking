@@ -20,7 +20,7 @@
 
 7. Evaluations:
 	- Go to the Evaluations/ folder
-	- To use Intersection data, add the csv file to Data/ and run get_data from PrecomputedData/ folder
+	- To use Interaction dataset, add the csv file to Evaluations/Data/ and run get_data from PrecomputedData/ folder
 	- A sample precomputed data is generated from the csv file in Data
 	- Precomputed data for estimator and model can be found in folder PrecomputedData/<estimator>/<model>/~.mat
 	
@@ -28,8 +28,13 @@
 		- run the timegraph.m file in the Computation Time folder
 		- A sample timer is present on Computation Time/Data/<estimator>.mat file
 	* Bound
-		- Calculate the average bounds from each estimator and model on precomputed data with bound.m
+		- Calculate the average bounds from each estimator and model on precomputed data with Bounds/bound.m
 	* Rate of change of Bound:
-		- See a plot of how bound changes with estimator and model using changebound.m
+		- See a plot of how bound changes with estimator and model using Bounds/changebound.m
+	* Accuracy
+		- See a box plot of RMSE(Root Mean Square Error) of the average estimation from true value with Accuracy/boxplot_all.m
+
+
+
 
 		
