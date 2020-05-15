@@ -38,13 +38,16 @@ titles = ["s_x", "s_y", "v_x", "v_y", "a_x", "a_y"];
 tiledlayout(model.dim_x,1);
 for i = 1:model.dim_x
     ax = nexttile;
-    plot(ax, t_arr, infimum_arr(i,:), 'r');
+    plot(ax, t_arr, infimum_arr(i,:), 'b');
     hold on;
-    plot(ax, t_arr, supremum_arr(i,:), 'g');
+    plot(ax, t_arr, supremum_arr(i,:), 'r');
     hold on;
-    plot(ax, t_arr, z_arr(i,:), 'b');
+    plot(ax, t_arr, z_arr(i,:), 'g');
     hold on;
     title( ax, titles(i));
-    
+    if(i == 1)
+        legend('Lower Bound', 'Upper Bound','True Value', 'Location', 'NorthOutside', 'Orientation', 'horizontal');
+    end
 end
+set(gcf, 'Position', get(0, 'Screensize'));
 fclose(fileID);
