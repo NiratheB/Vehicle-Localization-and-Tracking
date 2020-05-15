@@ -1,4 +1,4 @@
-classdef PointMassModel
+classdef PMModel
     %MODEL Model to map from 2 to 4
     %   Measurement: x,y, a_x, a_y
     %   State: x,y,v_x,v_y
@@ -18,7 +18,7 @@ classdef PointMassModel
     end
     
     methods
-        function obj = PointMassModel(delT)
+        function obj = PMModel(delT)
             %MODEL Construct an instance of this class
             %   Detailed explanation goes here
             obj.delT = delT;
@@ -36,7 +36,7 @@ classdef PointMassModel
             
             obj.B = [0 0; 0 0; 0 0; 0 0; 1 0; 0 1];
             
-            obj.initial = [10;10;10;10;10;10];
+            obj.initial = [1000;1000;10;10;10;10];
         end
     end
 end
