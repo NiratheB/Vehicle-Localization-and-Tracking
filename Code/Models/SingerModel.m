@@ -11,6 +11,7 @@ classdef SingerModel
         dim_x = 6;
         dim_y = 2;
         delT = 0.1;
+        constraint =0;
     end
     
     methods
