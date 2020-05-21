@@ -1,15 +1,19 @@
 function [gain, Pwrk, gamma_sol, i] = get_gain(PpD)
-%GET_GAIN Summary of this function goes here
-%   Detailed explanation goes here
+%GET_GAIN Design the observer gain based on Hinfinity scheme 
+% Inputs : PpD.A, PpD.C, PpD.E, PpD.F(State, OuputMatrices)
+% Ouputs: Observer Gain, matrix P, solution of lmi, decay rate
+% Author: JJRATH
+% Date: 15.4.2019
+% Last Updated by: FBehtarin
+
 tic;
 ns = size(PpD.A,1);
 nh = size(PpD.C,1);
 nw = size(PpD.E,1);
 nv = size(PpD.F,1);
-% try
+try
     P = sdpvar(ns,ns,'symmetric');
     Y = sdpvar(ns,nh,'full');
-    %L = sdpvar(ns, nh, 'full');
     gamma = linspace(0,50,100);
     for i = 2:length(gamma)
         GAx = blkvar;
@@ -52,12 +56,12 @@ nv = size(PpD.F,1);
 
     PP =(PpD.A-OGain*PpD.C);
     ObsInd =  'good design'; % i.e. system has good poles
-% catch
-%     ObsInd =  'bad design';   
-%     OGain = zeros(ns,nh);
-%     Pwrk = zeros(ns,ns);
-%     gamma_sol = 0/0;
-%end
+catch
+    ObsInd =  'bad design';   
+    OGain = zeros(ns,nh);
+    Pwrk = zeros(ns,ns);
+    gamma_sol = 0/0;
+end
 Tsolve =toc;
 gain = OGain;
 end

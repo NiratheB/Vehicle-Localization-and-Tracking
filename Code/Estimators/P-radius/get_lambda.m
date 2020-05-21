@@ -1,7 +1,13 @@
-function [OGain, P, Y, tau] = get_lambda(PpD)
+function [lambda] = get_lambda(PpD)
+%GET_LAMBDA Find Lambda for  minimum P-radius
+% Inputs : PpD.A, PpD.C, PpD.E, PpD.F(State, OuputMatrices)
+% Ouputs: Observer Gain, matrix P, solution of lmi, decay rate
+% Author: JJRATH
+% Date: 15.4.2019
+% Last Updated by: FBehtarin
 
 ns = size(PpD.A,1); nh = size (PpD.C,1);
-%try
+try
 for i = 1: nh
     P = sdpvar(ns,ns,'symmetric'); % The vector in state dimensions
     Y = sdpvar(ns,1,'full'); %The gain matrix
@@ -60,20 +66,19 @@ for i = 1: nh
     Y = value(Y);
     tau = value(tau);
     %-------End of While loop
-    OGain1(:,i) = inv(P)*Y;
+    lambda(:,i) = inv(P)*Y;
 end
-OGain = OGain1;
 
 
 %--- Check for obs. eigen values
-  PP =(PpD.A-OGain*PpD.C);
+  PP =(PpD.A-lambda*PpD.C);
     ObsInd =  'good design'; % i.e. system has good poles
-% catch
-%     ObsInd =  'bad design';
-%     OGain = zeros(ns,nh);
-%     P = zeros(ns,ns);
-% end
-%Tsolve = toc;
+catch
+    ObsInd =  'bad design';
+    lambda = zeros(ns,nh);
+    P = zeros(ns,ns);
+end
+Tsolve = toc;
 end
 
 %------------End of Code-----%
