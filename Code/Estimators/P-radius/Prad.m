@@ -35,7 +35,7 @@ classdef Prad < handle
             PpD.C = transpose(obj.model.C);
             PpD.E = obj.E;
             PpD.F = obj.F;
-            [obj.lambda, Pwrk, gamma_sol, i] = get_lambda(PpD);
+            [obj.lambda] = get_lambda(PpD);
             disp(obj.lambda);
         end
         
