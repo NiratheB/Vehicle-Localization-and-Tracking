@@ -2,23 +2,24 @@
 
 1. **Requirements**: Make sure you have CORA and mosek in your path 
 2. Add Code folder and subfolder to your path
-3. Execute sample to test
-4. Choose Model:
+3. Execute unitTests/testall.m to test requirements and functions.
+4. Execute sample to get demo plots
+5. Choose Model:
 	- Constant Velocity Model: CVModel
 	- Constant Acceleration Model: CAModel
 	- Point-Mass Model: PMModel
-5. Choose Estimator:
+6. Choose Estimator:
 	- Segment Minimization:
 		- F-radius: Frad
 		- P-radius: Prad
 		- Volume: Vol
 	- H-Infinity Interval Observer: Hinf
-6. Plot:
+7. Plot:
 	- Red: Upper bound
   	- Blue: Lower bound
   	- Green: True measurement
 
-7. Evaluations:
+8. Evaluations:
 	- Go to the Evaluations/ folder
 	- To use Interaction dataset, add the csv file to Evaluations/Data/ and run get_data from PrecomputedData/ folder
 	- A sample precomputed data is generated from the csv file in Data
